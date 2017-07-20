@@ -4,9 +4,23 @@
 
 GF_metadata is a supplemental tool used to create separate metadata files, following the USGS geospatial metadata format, for a series of datasets.  The code documentation can be found at: 
 
+The format for USGS geospatial metadata can be found here: https://www.fgdc.gov/standards/projects/FGDC-standards-projects/metadata/base-metadata/v2_0698.pdf
+
+Disclaimer: This software is preliminary or provisional and is subject to revision. It is being provided to meet the need for timely best science. The software has not received final approval by the U.S. Geological Survey (USGS). No warranty, expressed or implied, is made by the USGS or the U.S. Government as to the functionality of the software and related material nor shall the fact of release constitute any such warranty. The software is provided on the condition that neither the USGS nor the U.S. Government shall be held liable for any damages resulting from the authorized or unauthorized use of the software.
+
 # Installation and Dependencies
 
-This script mostly requires packages that are available through the scipy installation.
+This script requires packages that are available through the scipy installation.
+
+'
+#stdlib imports
+from collections import OrderedDict
+import pandas as pd
+import dicttoxml
+from xml.dom.minidom import parseString, parse
+import xml.etree.ElementTree as ET
+import os
+'
 
 # Usage Example
 
