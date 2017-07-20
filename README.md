@@ -2,6 +2,8 @@
 
 # Introduction
 
+GF_metadata is a supplemental tool used to create separate metadata files, following the USGS geospatial metadata format, for a series of datasets.  The code documentation can be found at: 
+
 # Installation and Dependencies
 
 This script mostly requires packages that are available through the scipy installation.
