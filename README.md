@@ -1,4 +1,4 @@
-# GF_metadata
+# EQIL_metadata
 
 ## Introduction
 
