@@ -4,6 +4,8 @@
 
 # Installation and Dependencies
 
+This script mostly requires packages that are available through the scipy installation.
+
 # Usage Example
 
 Running this code requires a CSV file specified exactly so in order to be read into the code exactly as needed.  This file is organized based off of three rows of the titles.  Row 1 has the main metadata classifications, Row 2 has the metadata item names, and Row 3 has a general description for the user.  The CSV file should have the following categories:
@@ -36,5 +38,9 @@ Running this code requires a CSV file specified exactly so in order to be read i
 |source|source|source|
 
 
-An example of this setup can be seen in Figure 1.
+An example of this setup can be seen in the figure below.
+
 ![img1](Sample_Spreedsheet_Image.png)
+
+
+To run the script, change lines 15 and 18. Line 15 should point to the CSV file being used.  Line 18 points to the output directory for results.
