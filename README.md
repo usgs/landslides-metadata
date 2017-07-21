@@ -25,32 +25,32 @@ This script requires packages that are available through the scipy installation.
 
 Running this code requires a CSV file specified exactly so in order to be read into the code exactly as needed.  This file is organized based off of three rows of the titles.  Row 1 has the main metadata classifications, Row 2 has the metadata item names, and Row 3 has a general description for the user.  The CSV file should have the following categories:
 
-|Row 1 Name|Row 2 Name|Row 3 Name|
-|---|---|---|
-|Inventory| |Name|
-|Citation|origin|Authors|
-| |pubdate|Date|
-| |title|Title|
-| |onlink|DOI|
-|Description|abstract|Abstract|
-| |purpose|Purpose|
-| |supplinf|Original Citation|
-|Time|begdate|Begin Date|
-| |enddate|End Date|
-|Status|progress|Progress|
-| |update|Update|
-|Geographical Context|descgeog|Data Collected from:|
-|Keywords|themekey|Theme|
-| |placekey|Place|
-| |tempkey|Time|
-|Contact|cntper|Contact Person|
-| |cntorg|Organization|
-| |address|Address|
-| |city|City|
-| |postal|Postal|
-| |country|Country|
-| |cntemail|Email|
-|source|source|source|
+|Row 1 Name|Row 2 Name|Row 3 Name|Description|
+|---|---|---|---|
+|Inventory| |Name|XML Item Name|
+|Citation|origin|Authors|A list of authors divided by semicolons|
+| |pubdate|Date|Date of publication of the data|
+| |title|Title|Title of the publication|
+| |onlink|DOI|DOI or other online link to the publication|
+|Description|abstract|Abstract|Abstract either of original paper or of data release|
+| |purpose|Purpose|Purpose pulled from paper or descibed by original author|
+| |supplinf|Original Citation|Original citation of paper (data releases by the USGS require new citations)|
+|Time|begdate|Begin Date|Begin date of research or event date|
+| |enddate|End Date|End date of publication|
+|Status|progress|Progress|Whether dataset is complete or not|
+| |update|Update|How dataset will be updated if needed|
+|Geographical Context|descgeog|Data Collected from:|Geographical location of data|
+|Keywords|themekey|Theme|Theme keys for the dataset pulled from the USGS Thesaurus|
+| |placekey|Place|Place keys for the dataset pulled from the USGS Thesaurus|
+| |tempkey|Time|Temporal keys for the dataset pulled from the USGS Thesaurus|
+|Contact|cntper|Contact Person|Person listed as the contact author for the dataset|
+| |cntorg|Organization|Contact organization for the dataset|
+| |address|Address|Mailing address for the contact organization|
+| |city|City|City for the contact organization|
+| |postal|Postal|Postal code for the contact organization|
+| |country|Country|Country of the contact organization|
+| |cntemail|Email|Email of the contact author or organization|
+|source|source|source|Whether the origin is USGS (only put usgs for USGS datasets, otherwise leave blank)|
 
 
 An example of this setup can be seen in the figure below.
