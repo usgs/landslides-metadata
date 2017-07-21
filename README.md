@@ -2,17 +2,17 @@
 
 ## Introduction
 
-GF_metadata is a supplemental tool used to create separate metadata files, following the USGS geospatial metadata format, for a data series release.  The code documentation can be found at: 
+GF_metadata is a supplemental tool used to create metadata files, following the USGS geospatial metadata format, for a data series release.  The code takes metadata information, compiled into a CSV document, for a series of data sets and produces separate XML metadata files for each data set.  The code documentation can be found at: https://github.com/kbiegel-usgs/EQIL_metadata
 
 The format for USGS geospatial metadata can be found here:  https://www.fgdc.gov/standards/projects/FGDC-standards-projects/metadata/base-metadata/v2_0698.pdf
 
-This script only fills out the background metadata provided from the source documentation.  It does not incorporate any of the geographical metadata which can be completed by running the USGS metadata tool:  https://geology.usgs.gov/tools/metadata/tools/doc/mp.html
+This script compiles the background metadata provided from source documentation.  It does not incorporate any of the geographical or geospatial metadata which can be completed by running the USGS metadata tool:  https://geology.usgs.gov/tools/metadata/tools/doc/mp.html
 
 Disclaimer: This software is preliminary or provisional and is subject to revision. It is being provided to meet the need for timely best science. The software has not received final approval by the U.S. Geological Survey (USGS). No warranty, expressed or implied, is made by the USGS or the U.S. Government as to the functionality of the software and related material nor shall the fact of release constitute any such warranty. The software is provided on the condition that neither the USGS nor the U.S. Government shall be held liable for any damages resulting from the authorized or unauthorized use of the software.
 
 ## Installation and Dependencies
 
-This script requires packages that are available through the scipy installation.
+This script requires packages that are available through the scipy installation.  All packages required to run the script can be seen below:
 
     #stdlib imports
     from collections import OrderedDict
@@ -22,10 +22,11 @@ This script requires packages that are available through the scipy installation.
     import xml.etree.ElementTree as ET
     import os
 
+Any packages that need to be installed can be installed via the 'pip install' or 'conda install' commands.
 
 ## Usage Example
 
-Running this code requires a CSV file specified exactly so in order to be read into the code exactly as needed.  This file is organized based off of three rows of the titles.  Row 1 has the main metadata classifications, Row 2 has the metadata item names, and Row 3 has a general description for the user.  All empty spaces create an item in the XML tree that reads 'TBD'.  The CSV file should have the following categories:
+Running this code requires a CSV file filled with the background metadata.  This file has three rows of the titles which are required to run this script.  Row 1 has the main metadata classifications, Row 2 has the metadata item names, and Row 3 has a general description for the user.  All empty spaces create an item in the XML tree that reads 'TBD'.  The CSV file should have the following categories:
 
 |Row 1 Name|Row 2 Name|Row 3 Name|Description|
 |---|---|---|---|
@@ -60,7 +61,9 @@ An example of this setup can be seen in the figure below.
 ![img1](Sample_Spreedsheet_Image.png)
 
 
-To run the script, change lines 15 and 18. Line 15 should point to the CSV file being used.  Line 18 points to the output directory for results.  Additionally, there are a series of hardcoded variables that need to be changed for each data series release.  These are default to the original publication for which this script was created.  All changes that need to be made to the code can be seen in the table below:
+To run the script, the user will have to make several changes to the script.  At a minimum, lines 15 and 18 need to be changed to point to the correct file locations in the users computer. Line 15 should point to the CSV file being used.  Line 18 points to the output directory for results.  
+
+Additionally, there are a series of hardcoded variables that need to be changed dependent on commonalities among the data sets being used.  These are default to the original publication for which this script was created.  All changes that can or should be made to the code can be seen in the table below:
 
 |Line number|Description of item|Default|
 |---|---|---|
