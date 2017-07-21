@@ -54,9 +54,7 @@ Running this code requires an excel spreadsheet containing the background metada
 |source|source|source|Whether the origin is USGS (only put usgs for USGS datasets, otherwise leave blank).  This column is only used to distinguish disclaimer or liability statements.|
 
 
-An example of this setup can be seen in the figure below and in a file called example_input.xlsx included in this repository.
-
-![img1](Sample_Spreedsheet_Image.png)
+An example of this setup can be seen in the attached Example_metadata.csv.
 
 ### Modifying scripts
 CHANGE THESE TO INPUTS TO A FUNCTION INSTEAD OF USING A SCRIPT, TRY TO AVOID HARDCODING ANYTHING
@@ -88,7 +86,7 @@ INSERT EXAMPLE HERE OF RUNNING THE CODE ITSELF THAT CAN BE RUN USING AN EXAMPLE 
 
 ### Output
 
-SHOW EXAMPLE OUTPUT XML FILE PRINTOUT OR INCLUDE IN THE REPOSITORY
+An example output of the XML file can be seen in the attached Example_xml.xml file.  This metadata file prior to the added 
 
 ## References
 
