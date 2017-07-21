@@ -12,15 +12,14 @@ Disclaimer: This software is preliminary or provisional and is subject to revisi
 
 This script requires packages that are available through the scipy installation.
 
-'
-#stdlib imports
-from collections import OrderedDict
-import pandas as pd
-import dicttoxml
-from xml.dom.minidom import parseString, parse
-import xml.etree.ElementTree as ET
-import os
-'
+    #stdlib imports
+    from collections import OrderedDict
+    import pandas as pd
+    import dicttoxml
+    from xml.dom.minidom import parseString, parse
+    import xml.etree.ElementTree as ET
+    import os
+
 
 ## Usage Example
 
