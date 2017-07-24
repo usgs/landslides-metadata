@@ -123,7 +123,7 @@ To run the function, you must specify the inputfile and outpath.  All other vari
 
 ### Output
 
-An example output of the XML file can be seen in the attached Example_xml.xml file.  This metadata file does not include geographic or geospatial information.
+An example output of the XML file can be seen in the attached Example_output.xml file.  This metadata file does not include geographic or geospatial information.
 
 ## References
 
