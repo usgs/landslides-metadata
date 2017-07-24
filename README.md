@@ -24,7 +24,7 @@ These can be installed using the 'pip install' or 'conda install' commands.
 
 ### Inputs
 
-Running this code requires an excel spreadsheet containing the background metadata. This file has three rows of the titles which are required to run this script.  Row 1 contains the main metadata classifications, Row 2 contains the metadata item names, and Row 3 contains a general description of what the Row 2 metadata name is for the user.  Row 4 contains the values that should be placed in the xml files for each variable. All empty spaces create an item in the XML tree that reads 'TBD'.  The xlsx file should have the following categories:
+Running this code requires an excel spreadsheet containing the background metadata. This file has three rows of the titles which are required to run this script.  Row 1 contains the main metadata classifications, Row 2 contains the metadata item names, and Row 3 contains a general description of what the Row 2 metadata name is for the user.  Row 4 contains the values that should be placed in the xml files for each variable. All empty spaces create an item in the XML tree that reads 'TBD'.  The csv file should have the following categories:
 
 |Row 1 Name|Row 2 Name|Row 3 Name|Description|
 |---|---|---|---|
@@ -117,7 +117,7 @@ To run the script, use a python environment such as ipython terminal.  First imp
 
     %run readMetadata.py
  
-Then run the function:
+To run the function, you must specify the inputfile and outpath.  All other variables have a default and are therefore option.  To run the function:
 
     readmetadata(inputfile='/Users/Documents/Example_metadata.csv', outpath='/Users/Documents/')
 
