@@ -75,22 +75,22 @@ This script is organized as one function requiring several specified inputs to r
 
 For dictionary variables, an example form of the specified dictionary can be seen in the function description in the attached script.  Examples (and defaults) can also be seen below:
 
-  % citeinfo example:
-  citeinfo = {'origin': 'Schmitt, R.; Tanyas, H.; Jessee, M.A.; Zhu, J.; Biegel, K.; Allstadt, K.E.; Jibson, R.W.; 
+    % citeinfo example:
+    citeinfo = {'origin': 'Schmitt, R.; Tanyas, H.; Jessee, M.A.; Zhu, J.; Biegel, K.; Allstadt, K.E.; Jibson, R.W.; 
                          Thompson, E.M.; van Westen, C.; Sato, H.P.; Wald, D.J.; Godt, J.W.; Gorum, T.; Moss, R.E.S.; 
                          Xu, C.',
                'pubdate': '2017',
                'pubinfo': {'publish': 'U.S. Geological Survey data release collection', 'pubplace': 'Golden, CO'},
                'title': 'An Open Repository of Earthquake-triggered Ground Failure Inventories',
                'onlink': 'https://doi.org/10.5066/xxxxxxx'}
-  % distinfo example
-  distinfo = {'cntperp': {'cntper': 'ScienceBase', 'cntorg': 'U.S. Geological Survey - ScienceBase'},
+    % distinfo example
+    distinfo = {'cntperp': {'cntper': 'ScienceBase', 'cntorg': 'U.S. Geological Survey - ScienceBase'},
               'cntaddr': {'addrtype': 'mailing and physical', 'address': 'Denver Federal Center, Building 810', 'city':
                           'Denver', 'state': 'CO', 'postal': '80225', 'country': 'USA'},
               'cntvoice': '1-888-275-8747',
               'cntemail': 'sciencebase@usgs.gov'}
-  % dataqual example
-  dataqual = {'attracc': {'attraccr': 'No formal attribute accuracy tests were conducted.'},
+    % dataqual example
+    dataqual = {'attracc': {'attraccr': 'No formal attribute accuracy tests were conducted.'},
               'logic': 'No formal logical accuracy tests were conducted.',
               'complete': 'Data set is considered complete for the information presented, as described in the abstract.
                            Users are advised to read the rest of the metadata record carefully for additional details.',
@@ -98,8 +98,8 @@ For dictionary variables, an example form of the specified dictionary can be see
                          {'vertaccr': 'No formal positional accuracy tests were conducted.''}},
               'lineage': {'procstep': {'procdesc': 'All dataset projection systems were converted to WGS84.',
                                        'procdate': 'General Processing Data when provided.'}}}
-  % metainfo example
-  metainfo = {'cntperp': {'cntper': 'GHSC Data Steward', 'cntorg': 'U.S. Geological Survey, 
+    % metainfo example
+    metainfo = {'cntperp': {'cntper': 'GHSC Data Steward', 'cntorg': 'U.S. Geological Survey, 
                           Geological Hazards Science Center'},
               'cntpos': 'Open Data Policy Coordinator',
               'cntaddr': {'addrtype': 'mailing and physical', 'address': '1711 Illinois St.', 'city': 'Golden',
@@ -109,17 +109,17 @@ For dictionary variables, an example form of the specified dictionary can be see
 
 Additionally, the default disclaimer is as follows:
 
-  disclaimer = 'Unless otherwise stated, all data, metadata and related materials are considered to satisfy the quality standards relative to the purpose for which the data were collected. Although these data and associated metadata have been reviewed for accuracy and completeness and approved for release by the U.S. Geological Survey (USGS), no warranty expressed or implied is made regarding the display or utility of the data on any other system or for general or scientific purposes, nor shall the act of distribution constitute any such warranty.'
+    disclaimer = 'Unless otherwise stated, all data, metadata and related materials are considered to satisfy the quality standards relative to the purpose for which the data were collected. Although these data and associated metadata have been reviewed for accuracy and completeness and approved for release by the U.S. Geological Survey (USGS), no warranty expressed or implied is made regarding the display or utility of the data on any other system or for general or scientific purposes, nor shall the act of distribution constitute any such warranty.'
               
 ### Running the code
 
 To run the script, use a python environment such as ipython terminal.  First import the script:
 
-  %run readMetadata.py
+    %run readMetadata.py
  
 Then run the function:
 
-  readmetadata(inputfile='/Users/Documents/Example_metadata.csv', outpath='/Users/Documents/')
+    readmetadata(inputfile='/Users/Documents/Example_metadata.csv', outpath='/Users/Documents/')
 
 ### Output
 
