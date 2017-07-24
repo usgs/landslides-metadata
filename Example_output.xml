@@ -1,0 +1,196 @@
+<?xml version="1.0" ?>
+<root>
+	<metadata type="dict">
+		<eainfo type="dict">
+			<overview type="dict">
+				<eadetcit type="str">Unknown</eadetcit>
+				<eaover type="str">TBD</eaover>
+			</overview>
+		</eainfo>
+		<dataqual type="dict">
+			<complete type="str">Data set is considered complete for the information presented, as described in the abstract. Users are advised to read the rest of the metadata record carefully for additional details.</complete>
+			<lineage type="dict">
+				<procstep type="dict">
+					<procdesc type="str">All dataset projection systems were converted to WGS84.</procdesc>
+					<procdate type="str">General Processing Data when provided.</procdate>
+				</procstep>
+			</lineage>
+			<logic type="str">No formal logical accuracy tests were conducted.</logic>
+			<attracc type="dict">
+				<attraccr type="str">No formal attribute accuracy tests were conducted.</attraccr>
+			</attracc>
+			<posacc type="dict">
+				<vertacc type="dict">
+					<vertaccr type="str">No formal positional accuracy tests were conducted.</vertaccr>
+				</vertacc>
+				<horizpa type="dict">
+					<horizpar type="str">No formal positional accuracy tests were conducted.</horizpar>
+				</horizpa>
+			</posacc>
+		</dataqual>
+		<distinfo type="dict">
+			<distliab type="str">Unless otherwise stated, all data, metadata and related materials are considered to satisfy the quality standards relative to the purpose for which the data were collected. Although these data and associated metadata have been reviewed for accuracy and completeness and approved for release by the U.S. Geological Survey (USGS), no warranty expressed or implied is made regarding the display or utility of the data on any other system or for general or scientific purposes, nor shall the act of distribution constitute any such warranty.</distliab>
+			<distrib type="dict">
+				<cntinfo type="dict">
+					<cntemail type="str">sciencebase@usgs.gov</cntemail>
+					<cntperp type="dict">
+						<cntper type="str">ScienceBase</cntper>
+						<cntorg type="str">U.S. Geological Survey - ScienceBase</cntorg>
+					</cntperp>
+					<cntaddr type="dict">
+						<country type="str">USA</country>
+						<state type="str">CO</state>
+						<postal type="str">80225</postal>
+						<address type="str">Denver Federal Center, Building 810, Mail Stop 302</address>
+						<addrtype type="str">mailing and physical</addrtype>
+						<city type="str">Denver</city>
+					</cntaddr>
+					<cntvoice type="str">1-888-275-8747</cntvoice>
+				</cntinfo>
+			</distrib>
+			<stdorder type="dict">
+				<fees type="str">None</fees>
+				<digform type="dict">
+					<digtinfo type="dict">
+						<formname type="str">ASCII</formname>
+					</digtinfo>
+					<digtopt type="dict">
+						<onlinopt type="dict">
+							<computer type="dict">
+								<networka type="dict">
+									<networkr type="str">Specific Dataset Link</networkr>
+								</networka>
+							</computer>
+						</onlinopt>
+					</digtopt>
+				</digform>
+			</stdorder>
+		</distinfo>
+		<metainfo type="dict">
+			<metd type="str">TBD</metd>
+			<metstdv type="str">FGDC-STD-001-1998</metstdv>
+			<metstdn type="str">FGDC Content Standard for Digital Geospatial Metadata</metstdn>
+			<metc type="dict">
+				<cntinfo type="dict">
+					<cntemail type="str">ghsc_metadata@usgs.gov</cntemail>
+					<cntperp type="dict">
+						<cntper type="str">GHSC Data Steward</cntper>
+						<cntorg type="str">U.S. Geological Survey, Geological Hazards Science Center</cntorg>
+					</cntperp>
+					<cntpos type="str">Open Data Policy coordinator</cntpos>
+					<cntaddr type="dict">
+						<country type="str">USA</country>
+						<state type="str">CO</state>
+						<postal type="str">80401</postal>
+						<address type="str">1711 Illinois Street</address>
+						<addrtype type="str">mailing and physical</addrtype>
+						<city type="str">Golden</city>
+					</cntaddr>
+					<cntvoice type="str">303-273-8500</cntvoice>
+				</cntinfo>
+			</metc>
+		</metainfo>
+		<idinfo type="dict">
+			<timeperd type="dict">
+				<current type="str">19710209</current>
+				<timeinfo type="dict">
+					<rngdates type="dict">
+						<begdate type="str">19710209</begdate>
+						<enddate type="str">1974</enddate>
+					</rngdates>
+				</timeinfo>
+			</timeperd>
+			<ptcontac type="dict">
+				<cntinfo type="dict">
+					<cntemail type="str">ghsc_metadata@usgs.gov</cntemail>
+					<cntperp type="dict">
+						<cntper type="str">GHSC Data Steward</cntper>
+						<cntorg type="str">U.S. Geological Survey, Geological Hazards Science Center</cntorg>
+					</cntperp>
+					<cntaddr type="dict">
+						<country type="str">USA</country>
+						<state type="str">none</state>
+						<postal type="str">80401</postal>
+						<address type="str">1711 Illinois Street</address>
+						<addrtype type="str">mailing and physical</addrtype>
+						<city type="str">Golden</city>
+					</cntaddr>
+					<cntvoice type="str">none</cntvoice>
+				</cntinfo>
+			</ptcontac>
+			<keywords type="dict">
+				<theme type="dict">
+					<themekey type="str">TBD</themekey>
+					<themekt type="str">USGS Thesaurus</themekt>
+				</theme>
+				<place type="dict">
+					<placekt type="str">USGS Thesaurus</placekt>
+					<placekey type="str">TBD</placekey>
+				</place>
+			</keywords>
+			<descript type="dict">
+				<purpose type="str">TBD</purpose>
+				<abstract type="str">TBD</abstract>
+				<suppleinf type="str">Barrows, A.G., Kahle, J.E., Weber, F.H, Jr., Saul, R.B., and Morton, D.M., 1974, Surface effects map of the San Fernando earthquake area, plate 3 in Oakeshott, G.B., ed., San Fernando, California, Earthquake of 9 February 1971: California Division of Mines and Geology Bulletin 196, scale 1:24,000.</suppleinf>
+			</descript>
+			<useconst type="str">none</useconst>
+			<status type="dict">
+				<update type="str">As Needed</update>
+				<progress type="str">Complete</progress>
+			</status>
+			<citation type="dict">
+				<citeinfo type="dict">
+					<onlink type="str">https://doi.org/10.5066/F7057DFS</onlink>
+					<lworkcit type="dict">
+						<citeinfo type="dict">
+							<onlink type="str">https://doi.org/10.5066/xxxxxxx</onlink>
+							<pubdate type="str">2017</pubdate>
+							<pubinfo type="dict">
+								<publish type="str">U.S. Geological Survey data release collection</publish>
+								<pubplace type="str">Golden, CO</pubplace>
+							</pubinfo>
+							<title type="str">An Open Repository of Earthquake-triggered Ground Failure Inventories</title>
+							<origin type="str">Schmitt, R.</origin>
+							<origin>Tanyas, H.</origin>
+							<origin>Jessee, M.A.</origin>
+							<origin>Zhu, J.</origin>
+							<origin>Biegel, K.</origin>
+							<origin>Allstadt, K.E.</origin>
+							<origin>Jibson, R.W.</origin>
+							<origin>Thompson, E.M.</origin>
+							<origin>van Westen, C.</origin>
+							<origin>Sato, H.P.</origin>
+							<origin>Wald, D.J.</origin>
+							<origin>Godt, J.W.</origin>
+							<origin>Gorum, T.</origin>
+							<origin>Moss, R.E.S.</origin>
+							<origin>Xu, C.</origin>
+						</citeinfo>
+					</lworkcit>
+					<pubinfo type="dict">
+						<publish type="str">None</publish>
+						<pubplace type="str">None</pubplace>
+					</pubinfo>
+					<title type="str">Surface effects map of the San Fernando earthquake area</title>
+					<pubdate type="str">1974</pubdate>
+					<geoform type="str">Electronic</geoform>
+					<origin type="str">Barrows, A.G.</origin>
+					<origin>Kahle, J.E.</origin>
+					<origin>Weber, F.H.</origin>
+					<origin>Saul, R.B.</origin>
+					<origin>Morton, D.M.</origin>
+				</citeinfo>
+			</citation>
+			<accconst type="str">none</accconst>
+			<spdom type="dict">
+				<descgeog type="str">California, US</descgeog>
+				<bounding type="dict">
+					<eastbc type="str">TBD</eastbc>
+					<westbc type="str">TBD</westbc>
+					<southbc type="str">TBD</southbc>
+					<northbc type="str">TBD</northbc>
+				</bounding>
+			</spdom>
+		</idinfo>
+	</metadata>
+</root>
