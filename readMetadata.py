@@ -11,24 +11,47 @@ import xml.etree.ElementTree as ET
 import os
 
 
-def readmetadata(inputfile, outpath, citeinfo, distinfo=None, dataqual=None, geoform='Electronic', pubplace='None', publish='None', disclaimer='default'):
+def readmetadata(inputfile, outpath, citeinfo='None', distinfo='None', dataqual='None', geoform='Electronic', pubplace='None', publish='None', disclaimer='default', metainfo='default'):
     """
-    inputfile = full path to input file
-    outpath = full path to output file location
-    citeinfo = dictionary containing full citation information in the form:
-                {'origin': 'Schmitt, R.; Tanyas, H.; Jessee, M.A.; Zhu, J.; Biegel, K.; Allstadt, K.E.; Jibson, R.W.; Thompson, E.M.; van Westen, C.; Sato, H.P.; Wald, D.J.; Godt, J.W.; Gorum, T.; Moss, R.E.S.; Xu, C.',
+    This function runs creates metadata files from a common CSV input.
+    ####
+    Variables
+    ####
+    inputfile = string, full path to input file
+    outpath = string, full path to output file directory
+    citeinfo = dictionary, containing full citation information in the form:
+                {'origin': 'Schmitt, R.; Tanyas, H.; Jessee, M.A.; Zhu, J.; Biegel, K.; Allstadt, K.E.; Jibson, R.W.; Thompson, E.M.;
+                            van Westen, C.; Sato, H.P.; Wald, D.J.; Godt, J.W.; Gorum, T.; Moss, R.E.S.; Xu, C.',
                  'pubdate': '2017',
                  'pubinfo': {'publish': 'U.S. Geological Survey data release collection', 'pubplace': 'Golden, CO'},
                  'title': 'An Open Repository of Earthquake-triggered Ground Failure Inventories',
-                 'onlink': 'https://doi.org/10.5066/xxxxxxx'}}
-    distinfo = dictionary containing distributor contact information. If None, will use ScienceBase as distributor. DEFINE DICTIONARY FORM
-    dataqual = dictionary containing data quality information. If None, will use default of no data quality checks. DEFINE DICTIONARY FORM
+                 'onlink': 'https://doi.org/10.5066/xxxxxxx'}
+    distinfo = dictionary, containing distributor contact information. If None, will use ScienceBase as distributor.
+                {'cntperp': {'cntper': 'ScienceBase', 'cntorg': 'U.S. Geological Survey - ScienceBase'},
+                 'cntaddr': {'addrtype': 'mailing and physical', 'address': 'Denver Federal Center, Building 810', 'city':
+                            'Denver', 'state': 'CO', 'postal': '80225', 'country': 'USA'},
+                 'cntvoice': '1-888-275-8747',
+                 'cntemail': 'sciencebase@usgs.gov'}
+    dataqual = dictionary, containing data quality information. If None, will use default of no data quality checks.
+                {'attracc': {'attraccr': 'No formal attribute accuracy tests were conducted.'},
+                 'logic': 'No formal logical accuracy tests were conducted.',
+                 'complete': 'Data set is considered complete for the information presented, as described in the abstract.
+                              Users are advised to read the rest of the metadata record carefully for additional details.',
+                 'postacc': {'horizpa': {'horizpar': 'No formal positional accuracy tests were conducted.'}, 'vertacc':
+                            {'vertaccr': 'No formal positional accuracy tests were conducted.''}},
+                 'lineage': {'procstep': {'procdesc': 'All dataset projection systems were converted to WGS84.',
+                                          'procdate': 'General Processing Data when provided.'}}}
     geoform = The mode in which the geospatial data is presented.
-    pubplace =
-    publish =
-    disclaimer = Custom disclaimer, if 'default', will use a default USGS disclaimer
-
-    
+    pubplace = string, geographical place data was published
+    publish = string, publisher of data.
+    disclaimer = string, custom disclaimer, if 'default', will use a default USGS disclaimer
+    metainfo = dictionary, containing metadata contact information.  If default, will use GHSC Data Steward.
+                {'cntperp': {'cntper': 'GHSC Data Steward', 'cntorg': 'U.S. Geological Survey, Geological Hazards Science Center'},
+                 'cntpos': 'Open Data Policy Coordinator',
+                 'cntaddr': {'addrtype': 'mailing and physical', 'address': '1711 Illinois St.', 'city': 'Golden',
+                             'state': 'CO', 'postal': '80401', 'country': 'USA'},
+                 'cntvoice': '303-273-8500',
+                 'cntemail': 'ghsc_metadata@usgs.gov'}
     """
 
     # read in excel file (must be csv)
@@ -63,7 +86,10 @@ def readmetadata(inputfile, outpath, citeinfo, distinfo=None, dataqual=None, geo
         metadata['metadata']['idinfo']['citation']['citeinfo']['geoform'] = geoform
         metadata['metadata']['idinfo']['citation']['citeinfo']['pubinfo']['pubplace'] = pubplace
         metadata['metadata']['idinfo']['citation']['citeinfo']['pubinfo']['publish'] = publish
-        metadata['metadata']['idinfo']['citation']['citeinfo']['lworkcit'] = {'citeinfo': citeinfo}
+        if citeinfo == 'None':
+            metadata['metadata']['idinfo']['citation']['citeinfo']['lworkcit'] = {'citeinfo': {'origin': 'Schmitt, R.; Tanyas, H.; Jessee, M.A.; Zhu, J.; Biegel, K.; Allstadt, K.E.; Jibson, R.W.; Thompson, E.M.; van Westen, C.; Sato, H.P.; Wald, D.J.; Godt, J.W.; Gorum, T.; Moss, R.E.S.; Xu, C.', 'pubdate': '2017', 'pubinfo': {'publish': 'U.S. Geological Survey data release collection', 'pubplace': 'Golden, CO'}, 'title': 'An Open Repository of Earthquake-triggered Ground Failure Inventories', 'onlink': 'https://doi.org/10.5066/xxxxxxx'}}
+        else:
+            metadata['metadata']['idinfo']['citation']['citeinfo']['lworkcit'] = {'citeinfo': citeinfo}
 
         # for descript
         for j in range(6, 9):
@@ -137,7 +163,7 @@ def readmetadata(inputfile, outpath, citeinfo, distinfo=None, dataqual=None, geo
         # set database-wide info (these do not change from iteration to iteration)
 
         # dataqual
-        if dataqual is None:
+        if dataqual == 'None':
             metadata['metadata']['dataqual']['attracc']['attraccr'] = 'No formal attribute accuracy tests were conducted.'
             metadata['metadata']['dataqual']['logic'] = 'No formal logical accuracy tests were conducted.'
             metadata['metadata']['dataqual']['complete'] = 'Data set is considered complete for the information presented, as described in the abstract. Users are advised to read the rest of the metadata record carefully for additional details.'
@@ -145,13 +171,16 @@ def readmetadata(inputfile, outpath, citeinfo, distinfo=None, dataqual=None, geo
             metadata['metadata']['dataqual']['posacc']['vertacc']['vertaccr'] = 'No formal positional accuracy tests were conducted.'
             metadata['metadata']['dataqual']['lineage']['procstep']['procdesc'] = 'All dataset projection systems were converted to WGS84.'
             metadata['metadata']['dataqual']['lineage']['procstep']['procdate'] = 'General Processing Data when provided.'
+        else:
+            metadata['metadata']['dataqual'] = dataqual
 
         # eainfo
         metadata['metadata']['eainfo']['overview']['eaover'] = 'TBD'
         metadata['metadata']['eainfo']['overview']['eadetcit'] = 'Unknown'
 
         # distinfo
-        if distinfo is None:
+        metadata['metadata']['distinfo']['digform']['digopt']['olinopt']['computer']['networka']['networkr'] = 'Specific Dataset Link'
+        if distinfo == 'None':
             metadata['metadata']['distinfo']['distrib']['cntinfo']['cntperp']['cntper'] = 'ScienceBase'
             metadata['metadata']['distinfo']['distrib']['cntinfo']['cntperp']['cntorg'] = 'U.S. Geological Survey - ScienceBase'
             metadata['metadata']['distinfo']['distrib']['cntinfo']['cntaddr']['addrtype'] = 'mailing and physical'
@@ -162,9 +191,8 @@ def readmetadata(inputfile, outpath, citeinfo, distinfo=None, dataqual=None, geo
             metadata['metadata']['distinfo']['distrib']['cntinfo']['cntaddr']['country'] = 'USA'
             metadata['metadata']['distinfo']['distrib']['cntinfo']['cntvoice'] = '1-888-275-8747'
             metadata['metadata']['distinfo']['distrib']['cntinfo']['cntemail'] = 'sciencebase@usgs.gov'
-            metadata['metadata']['distinfo']['digform']['digopt']['olinopt']['computer']['networka']['networkr'] = 'Specific Dataset Link'
         else:
-            pass  #'FILL THIS IN PULLING FROM DICTIONARY'
+            metadata['metadata']['distinfo']['distrib']['cntinfo'] = distinfo
 
         if disclaimer == 'default':
             metadata['metadata']['distinfo']['distliab'] = 'Unless otherwise stated, all data, metadata and related materials are considered to satisfy the quality standards relative to the purpose for which the data were collected. Although these data and associated metadata have been reviewed for accuracy and completeness and approved for release by the U.S. Geological Survey (USGS), no warranty expressed or implied is made regarding the display or utility of the data on any other system or for general or scientific purposes, nor shall the act of distribution constitute any such warranty.'
@@ -172,8 +200,10 @@ def readmetadata(inputfile, outpath, citeinfo, distinfo=None, dataqual=None, geo
             metadata['metadata']['distinfo']['distliab'] = disclaimer
 
         # metainfo
+        metadata['metadata']['metainfo']['metstdn'] = 'FGDC Content Standard for Digital Geospatial Metadata'
+        metadata['metadata']['metainfo']['metstdv'] = 'FGDC-STD-001-1998'
+        metadata['metadata']['metainfo']['metd'] = 'TBD'
         if metainfo is None:
-            metadata['metadata']['metainfo']['metd'] = 'TBD'
             metadata['metadata']['metainfo']['metc']['cntinfo']['cntperp']['cntper'] = 'GHSC Data Steward'
             metadata['metadata']['metainfo']['metc']['cntinfo']['cntperp']['cntorg'] = 'U.S. Geological Survey, Geological Hazards Science Center'
             metadata['metadata']['metainfo']['metc']['cntinfo']['cntpos'] = 'Open Data Policy coordinator'
@@ -185,10 +215,8 @@ def readmetadata(inputfile, outpath, citeinfo, distinfo=None, dataqual=None, geo
             metadata['metadata']['metainfo']['metc']['cntinfo']['cntaddr']['country'] = 'USA'
             metadata['metadata']['metainfo']['metc']['cntinfo']['cntvoice'] = '303-273-8500'
             metadata['metadata']['metainfo']['metc']['cntinfo']['cntemail'] = 'ghsc_metadata@usgs.gov'
-            metadata['metadata']['metainfo']['metstdn'] = 'FGDC Content Standard for Digital Geospatial Metadata'
-            metadata['metadata']['metainfo']['metstdv'] = 'FGDC-STD-001-1998'
         else:
-            pass #'FILL THIS IN'
+            metadata['metadata']['metainfo']['metc']['cntinfo'] = metainfo
 
         # print OrderedDict to xml file
         xml = dicttoxml.dicttoxml(metadata)
@@ -376,3 +404,4 @@ def readmetadata(inputfile, outpath, citeinfo, distinfo=None, dataqual=None, geo
         filename.write(str(xl['Inventory'].loc[i]))
         filename.write('\n\n %s \n\n' % string[i-2])
     filename.close()
+    
