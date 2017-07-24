@@ -56,37 +56,74 @@ Running this code requires an excel spreadsheet containing the background metada
 
 An example of this setup can be seen in the attached Example_metadata.csv.
 
-### Modifying scripts
-CHANGE THESE TO INPUTS TO A FUNCTION INSTEAD OF USING A SCRIPT, TRY TO AVOID HARDCODING ANYTHING
-To run the script, the user will have to make several changes to the script.  At a minimum, lines 15 and 18 need to be changed to point to the correct file locations in the users computer. Line 15 should point to the CSV file being used.  Line 18 points to the output directory for results.  
+### Variables
 
-Additionally, there are a series of hardcoded variables that need to be changed dependent on commonalities among the data sets being used.  These are default to the original publication for which this script was created.  All changes that can or should be made to the code can be seen in the table below:
+This script is organized as one function requiring several specified inputs to run.  These inputs, along with their defaults, can be seen in the table below.
 
-|Line number|Description of item|Default|
-|---|---|---|
-|15|Filename of the input file.| |
-|18|Directory name for the output files.| |
-|46|The mode in which the geospatial data is presented.|'Electronic'|
-|47|The name of the city (or more general location) where the data set was published.|'None'|
-|48|The name of the individual or organization that published the data.|'None'|
-|49|The information identifying a larger work in which the data set is included.| |
-|96|Reference to a thesaurus or similar source of keywords. For theme keys.|'USGS Thesaurus'|
-|97|Reference to a thesaurus or similar source of keywords. For temporal keys.|'USGS Thesaurus'|
-|98|Reference to a thesaurus or similar source of keywords. For place keys.|'USGS Thesaurus'|
-|117|The state of the contact organization. To specify this for each data set, it needs to be added to the end of the CSV file and the code needs to be adapted.|'None'|
-|118|The voicemail or telephone number for the contact organization or individual.  To specify this for each data set, it needs to be added to the end of the CSV file and the code needs to be adapted.|'None'|
-|123-129|Data quality attributes.  These lines should be updated according to accuracy tests and processing steps that were applied to the entire database.|Many defaults.|
-|136-146|Distributor contact information.|Sciencebase|
-|147-150|Liability statements.  Dependent on the source of data.|USGS and non-USGS version.|
-|153-166|Metadata contact information.|GHSC Data Steward|
+|Variable Name|Variable Tyep|Description of Item|Default|
+|---|---|---|---|
+|inputfile|String|Filename of the input file.| |
+|outpath|String|Directory name for the output files.| |
+|citeinfo|Dictionary|The information identifying a larger work in which the data set is included.|'None'|
+|distinfo|Dictionary|Distributor contact information|'None'|
+|dataqual|Dictionary|Contains data quality information|'None'|
+|geoform|String|Mode in which data is presented|'Electronic'|
+|pubplace|String|Geographic location of data published|'None'|
+|publish|String|Name of data published|'None'|
+|disclaimer|String|Custom disclaimed|'default'|
+|metainfo|Dictionary|Containing metadata contact information|'default'|
 
+For dictionary variables, an example form of the specified dictionary can be seen in the function description in the attached script.  Examples (and defaults) can also be seen below:
+
+  % citeinfo example:
+  citeinfo = {'origin': 'Schmitt, R.; Tanyas, H.; Jessee, M.A.; Zhu, J.; Biegel, K.; Allstadt, K.E.; Jibson, R.W.; 
+                         Thompson, E.M.; van Westen, C.; Sato, H.P.; Wald, D.J.; Godt, J.W.; Gorum, T.; Moss, R.E.S.; 
+                         Xu, C.',
+               'pubdate': '2017',
+               'pubinfo': {'publish': 'U.S. Geological Survey data release collection', 'pubplace': 'Golden, CO'},
+               'title': 'An Open Repository of Earthquake-triggered Ground Failure Inventories',
+               'onlink': 'https://doi.org/10.5066/xxxxxxx'}
+  % distinfo example
+  distinfo = {'cntperp': {'cntper': 'ScienceBase', 'cntorg': 'U.S. Geological Survey - ScienceBase'},
+              'cntaddr': {'addrtype': 'mailing and physical', 'address': 'Denver Federal Center, Building 810', 'city':
+                          'Denver', 'state': 'CO', 'postal': '80225', 'country': 'USA'},
+              'cntvoice': '1-888-275-8747',
+              'cntemail': 'sciencebase@usgs.gov'}
+  % dataqual example
+  dataqual = {'attracc': {'attraccr': 'No formal attribute accuracy tests were conducted.'},
+              'logic': 'No formal logical accuracy tests were conducted.',
+              'complete': 'Data set is considered complete for the information presented, as described in the abstract.
+                           Users are advised to read the rest of the metadata record carefully for additional details.',
+              'postacc': {'horizpa': {'horizpar': 'No formal positional accuracy tests were conducted.'}, 'vertacc':
+                         {'vertaccr': 'No formal positional accuracy tests were conducted.''}},
+              'lineage': {'procstep': {'procdesc': 'All dataset projection systems were converted to WGS84.',
+                                       'procdate': 'General Processing Data when provided.'}}}
+  % metainfo example
+  metainfo = {'cntperp': {'cntper': 'GHSC Data Steward', 'cntorg': 'U.S. Geological Survey, 
+                          Geological Hazards Science Center'},
+              'cntpos': 'Open Data Policy Coordinator',
+              'cntaddr': {'addrtype': 'mailing and physical', 'address': '1711 Illinois St.', 'city': 'Golden',
+                          'state': 'CO', 'postal': '80401', 'country': 'USA'},
+              'cntvoice': '303-273-8500',
+              'cntemail': 'ghsc_metadata@usgs.gov'}
+
+Additionally, the default disclaimer is as follows:
+
+  disclaimer = 'Unless otherwise stated, all data, metadata and related materials are considered to satisfy the quality standards relative to the purpose for which the data were collected. Although these data and associated metadata have been reviewed for accuracy and completeness and approved for release by the U.S. Geological Survey (USGS), no warranty expressed or implied is made regarding the display or utility of the data on any other system or for general or scientific purposes, nor shall the act of distribution constitute any such warranty.'
+              
 ### Running the code
 
-INSERT EXAMPLE HERE OF RUNNING THE CODE ITSELF THAT CAN BE RUN USING AN EXAMPLE CSV FILE
+To run the script, use a python environment such as ipython terminal.  First import the script:
+
+  %run readMetadata.py
+ 
+Then run the function:
+
+  readmetadata(inputfile='/Users/Documents/Example_metadata.csv', outpath='/Users/Documents/')
 
 ### Output
 
-An example output of the XML file can be seen in the attached Example_xml.xml file.  This metadata file prior to the added 
+An example output of the XML file can be seen in the attached Example_xml.xml file.  This metadata file does not include geographic or geospatial information.
 
 ## References
 
