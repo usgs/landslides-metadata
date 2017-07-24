@@ -41,7 +41,7 @@ def readmetadata(inputfile, outpath, citeinfo='None', distinfo='None', dataqual=
                             {'vertaccr': 'No formal positional accuracy tests were conducted.''}},
                  'lineage': {'procstep': {'procdesc': 'All dataset projection systems were converted to WGS84.',
                                           'procdate': 'General Processing Data when provided.'}}}
-    geoform = The mode in which the geospatial data is presented.
+    geoform = string, mode in which the geospatial data is presented.
     pubplace = string, geographical place data was published
     publish = string, publisher of data.
     disclaimer = string, custom disclaimer, if 'default', will use a default USGS disclaimer
@@ -66,7 +66,7 @@ def readmetadata(inputfile, outpath, citeinfo='None', distinfo='None', dataqual=
     #run through for loop of the same size as the number of inventories
     for i in range(2, a):
         #start new dictionary element for each repository with similar basic structure
-        metadata.update({'metadata': {'eainfo': {'overview': {}}, 'idinfo': {'citation': {'citeinfo': {'pubinfo': {}}}, 'descript': {}, 'timeperd': {'timeinfo': {'rngdates': {}}}, 'status': {}, 'spdom': {'bounding': {}}, 'keywords': {'theme': {}, 'place': {}}, 'ptcontac': {'cntinfo': {'cntperp': {}, 'cntaddr': {}}}}, 'dataqual': {'attracc': {}, 'posacc': {'horizpa': {}, 'vertacc': {}}, 'lineage': {'procstep': {}}}, 'distinfo': {'digform': {'digopt': {'olinopt': {'computer': {'networka': {}}}}}, 'distrib': {'cntinfo': {'cntperp': {}, 'cntaddr': {}}}}, 'metainfo': {'metc': {'cntinfo': {'cntperp': {}, 'cntaddr': {}}}}}})
+        metadata.update({'metadata': {'eainfo': {'overview': {}}, 'idinfo': {'citation': {'citeinfo': {'pubinfo': {}}}, 'descript': {}, 'timeperd': {'timeinfo': {'rngdates': {}}}, 'status': {}, 'spdom': {'bounding': {}}, 'keywords': {'theme': {}, 'place': {}}, 'ptcontac': {'cntinfo': {'cntperp': {}, 'cntaddr': {}}}}, 'dataqual': {'attracc': {}, 'posacc': {'horizpa': {}, 'vertacc': {}}, 'lineage': {'procstep': {}}}, 'distinfo': {'stdorder': {'digform': {'digtopt': {'onlinopt': {'computer': {'networka': {}}}}}}, 'distrib': {'cntinfo': {'cntperp': {}, 'cntaddr': {}}}}, 'metainfo': {'metc': {'cntinfo': {'cntperp': {}, 'cntaddr': {}}}}}})
 
         # add unique inventory information
 
@@ -179,7 +179,9 @@ def readmetadata(inputfile, outpath, citeinfo='None', distinfo='None', dataqual=
         metadata['metadata']['eainfo']['overview']['eadetcit'] = 'Unknown'
 
         # distinfo
-        metadata['metadata']['distinfo']['digform']['digopt']['olinopt']['computer']['networka']['networkr'] = 'Specific Dataset Link'
+        metadata['metadata']['distinfo']['stdorder']['digform']['digtopt']['onlinopt']['computer']['networka']['networkr'] = 'Specific Dataset Link'
+        metadata['metadata']['distinfo']['stdorder']['fees'] = 'None'
+        metadata['metadata']['distinfo']['stdorder']['digform']['digtinfo'] = {'formname': 'ASCII'}
         if distinfo == 'None':
             metadata['metadata']['distinfo']['distrib']['cntinfo']['cntperp']['cntper'] = 'ScienceBase'
             metadata['metadata']['distinfo']['distrib']['cntinfo']['cntperp']['cntorg'] = 'U.S. Geological Survey - ScienceBase'
@@ -203,7 +205,7 @@ def readmetadata(inputfile, outpath, citeinfo='None', distinfo='None', dataqual=
         metadata['metadata']['metainfo']['metstdn'] = 'FGDC Content Standard for Digital Geospatial Metadata'
         metadata['metadata']['metainfo']['metstdv'] = 'FGDC-STD-001-1998'
         metadata['metadata']['metainfo']['metd'] = 'TBD'
-        if metainfo is None:
+        if metainfo is 'default':
             metadata['metadata']['metainfo']['metc']['cntinfo']['cntperp']['cntper'] = 'GHSC Data Steward'
             metadata['metadata']['metainfo']['metc']['cntinfo']['cntperp']['cntorg'] = 'U.S. Geological Survey, Geological Hazards Science Center'
             metadata['metadata']['metainfo']['metc']['cntinfo']['cntpos'] = 'Open Data Policy coordinator'
