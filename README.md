@@ -24,7 +24,7 @@ These can be installed using the 'pip install' or 'conda install' commands.
 
 ### Inputs
 
-Running this code requires an excel spreadsheet containing the background metadata. An example of this setup can be seen in the attached Example_metadata.csv. This file has three rows of the titles which are required to run this script.  Row 1 contains the main metadata classifications, Row 2 contains the metadata item names, and Row 3 contains a general description of what the Row 2 metadata name is for the user.  Row 4 contains the values that should be placed in the xml files for each variable. All empty spaces create an item in the XML tree that reads 'TBD'.  The csv file should have the following categories:
+Running this code requires creating a csv file containing the background metadata that will be used to populate the xml files. An example of this setup can be seen in the attached Example_metadata.csv. This file has three rows of the titles which are required to run this script.  Row 1 contains the main metadata classifications, Row 2 contains the metadata item names, and Row 3 contains a general description of what the Row 2 metadata name is for the user.  Row 4 contains the values that should be placed in the xml files for each variable. All empty spaces create an item in the XML tree that reads 'TBD'.  The csv file should have the following categories:
 
 |Row 1 Name|Row 2 Name|Row 3 Name|Description|
 |---|---|---|---|
@@ -124,13 +124,14 @@ To run the function that creates the xml files, you must specify the inputfile a
 rm.readmetadata(inputfile='Example_metadata.csv', outpath='.')
 
 # Create xml files with changes to defaults
-rm.readmetadata(inputfile='Example_metadata.csv', outpath='.', printcitations=True, citeinfo=citeinfo, distinfo=distinfo, dataqual=dataqual, geoform='Electronic', pubplace='Earth', publish='Yes please', disclaimer='Words', metainfo=metainfo)
-
+rm.readmetadata(inputfile='Example_metadata.csv', outpath='.', printcitations=True, citeinfo=citeinfo,
+                distinfo=distinfo, dataqual=dataqual, geoform='Electronic', pubplace='Earth',
+                publish='Yes please', disclaimer='Words', metainfo=metainfo)
 ```
 
 ### Output
 
-An example output of the XML file can be seen in the attached Example_output.xml file.  This metadata file does not include geographic or geospatial information so additional modifications need to be made after this point.
+An example output of the XML file can be seen in the attached Example_output.xml file.  This metadata file does not include geographic or geospatial information so additional processing is required as described in the introduction.
 
 ## References
 
