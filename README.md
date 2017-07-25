@@ -118,7 +118,7 @@ To run the code, use a python environment such as ipython terminal.  First impor
 import readMetadata as rm
 ```
  
-To run the function that creates the xml files, you must specify the inputfile and outpath.  All other variables have a default and are therefore optional.  To run the function with defaults
+To run the function that creates the xml files, you must specify the inputfile and outpath.  All other variables have a default and are therefore optional.  To run the function:
 ```python
 # Create xml files with all defaults
 rm.readmetadata(inputfile='Example_metadata.csv', outpath='.')
