@@ -24,8 +24,3 @@ IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILIT
 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH 
 THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 For more information, please refer to http://unlicense.org/
-
-Dependent libraries found in the "extern" directory are distributed under
-the open source (or open source-like) licenses/agreements. Appropriate
-license aggrements for each library can be found in the "extern"
-directory.
