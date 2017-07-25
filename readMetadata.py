@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
-""" Read in excel metadata file (.csv) to make separate .xml metadata files for inventory."""
+""" Read in excel metadata file (.csv) to make separate .xml metadata files for each inventory.
+Must be run using Python 3"""
 
 #stdlib imports
 from collections import OrderedDict
@@ -11,21 +12,22 @@ import xml.etree.ElementTree as ET
 import os
 
 
-def readmetadata(inputfile, outpath, citeinfo='None', distinfo='None', dataqual='None', geoform='Electronic', pubplace='None', publish='None', disclaimer='default', metainfo='default'):
+def readmetadata(inputfile, outpath, citeinfo='None', distinfo='None', dataqual='None', geoform='Electronic',
+                 pubplace='None', publish='None', disclaimer='default', metainfo='default', printcitations=False):
     """
-    This function runs creates metadata files from a common CSV input.
+    This function runs creates metadata files from a common CSV input for individual files that are part of a data collection.
     ####
     Variables
     ####
     inputfile = string, full path to input file
     outpath = string, full path to output file directory
-    citeinfo = dictionary, containing full citation information in the form:
+    citeinfo = dictionary, containing full citation of the base data collection:
                 {'origin': 'Schmitt, R.; Tanyas, H.; Jessee, M.A.; Zhu, J.; Biegel, K.; Allstadt, K.E.; Jibson, R.W.; Thompson, E.M.;
-                            van Westen, C.; Sato, H.P.; Wald, D.J.; Godt, J.W.; Gorum, T.; Moss, R.E.S.; Xu, C.',
+                            van Westen, C.; Sato, H.P.; Wald, D.J.; Godt, J.W.; Gorum, T.; Moss, R.E.S.; Xu, C; Rathje, E.M., Knudsen, K.L.',
                  'pubdate': '2017',
                  'pubinfo': {'publish': 'U.S. Geological Survey data release collection', 'pubplace': 'Golden, CO'},
                  'title': 'An Open Repository of Earthquake-triggered Ground Failure Inventories',
-                 'onlink': 'https://doi.org/10.5066/xxxxxxx'}
+                 'onlink': 'https://doi.org/10.5066/F7H70DB4'}
     distinfo = dictionary, containing distributor contact information. If None, will use ScienceBase as distributor.
                 {'cntperp': {'cntper': 'ScienceBase', 'cntorg': 'U.S. Geological Survey - ScienceBase'},
                  'cntaddr': {'addrtype': 'mailing and physical', 'address': 'Denver Federal Center, Building 810', 'city':
@@ -46,12 +48,13 @@ def readmetadata(inputfile, outpath, citeinfo='None', distinfo='None', dataqual=
     publish = string, publisher of data.
     disclaimer = string, custom disclaimer, if 'default', will use a default USGS disclaimer
     metainfo = dictionary, containing metadata contact information.  If default, will use GHSC Data Steward.
-                {'cntperp': {'cntper': 'GHSC Data Steward', 'cntorg': 'U.S. Geological Survey, Geological Hazards Science Center'},
+                {'cntperp': {'cntper': 'GHSC Data Steward', 'cntorg': 'U.S. Geological Survey, Geologic Hazards Science Center'},
                  'cntpos': 'Open Data Policy Coordinator',
                  'cntaddr': {'addrtype': 'mailing and physical', 'address': '1711 Illinois St.', 'city': 'Golden',
                              'state': 'CO', 'postal': '80401', 'country': 'USA'},
                  'cntvoice': '303-273-8500',
                  'cntemail': 'ghsc_metadata@usgs.gov'}
+    printcitations = if True, function will output a file called citations.docx containing full list of citations
     """
 
     # read in excel file (must be csv)
@@ -87,7 +90,7 @@ def readmetadata(inputfile, outpath, citeinfo='None', distinfo='None', dataqual=
         metadata['metadata']['idinfo']['citation']['citeinfo']['pubinfo']['pubplace'] = pubplace
         metadata['metadata']['idinfo']['citation']['citeinfo']['pubinfo']['publish'] = publish
         if citeinfo == 'None':
-            metadata['metadata']['idinfo']['citation']['citeinfo']['lworkcit'] = {'citeinfo': {'origin': 'Schmitt, R.; Tanyas, H.; Jessee, M.A.; Zhu, J.; Biegel, K.; Allstadt, K.E.; Jibson, R.W.; Thompson, E.M.; van Westen, C.; Sato, H.P.; Wald, D.J.; Godt, J.W.; Gorum, T.; Moss, R.E.S.; Xu, C.', 'pubdate': '2017', 'pubinfo': {'publish': 'U.S. Geological Survey data release collection', 'pubplace': 'Golden, CO'}, 'title': 'An Open Repository of Earthquake-triggered Ground Failure Inventories', 'onlink': 'https://doi.org/10.5066/xxxxxxx'}}
+            metadata['metadata']['idinfo']['citation']['citeinfo']['lworkcit'] = {'citeinfo': {'origin': 'Schmitt, R.; Tanyas, H.; Jessee, M.A.; Zhu, J.; Biegel, K.; Allstadt, K.E.; Jibson, R.W.; Thompson, E.M.; van Westen, C.; Sato, H.P.; Wald, D.J.; Godt, J.W.; Gorum, T.; Moss, R.E.S.; Xu, C.; Rathje, E.M., Knudsen, K.L.', 'pubdate': '2017', 'pubinfo': {'publish': 'U.S. Geological Survey data release collection', 'pubplace': 'Golden, CO'}, 'title': 'An Open Repository of Earthquake-triggered Ground Failure Inventories', 'onlink': 'https://doi.org/10.5066/xxxxxxx'}}
         else:
             metadata['metadata']['idinfo']['citation']['citeinfo']['lworkcit'] = {'citeinfo': citeinfo}
 
@@ -220,11 +223,17 @@ def readmetadata(inputfile, outpath, citeinfo='None', distinfo='None', dataqual=
         else:
             metadata['metadata']['metainfo']['metc']['cntinfo'] = metainfo
 
+        # clean up name
+        invname = str(xl['Inventory'].loc[i]).replace(', ', '_')
+        invname = invname.replace(',', '_')
+        invname = invname.replace(' ', '_')
+        fullname = 'metadata_%s_%i.xml' % (invname, i)
+
         # print OrderedDict to xml file
         xml = dicttoxml.dicttoxml(metadata)
         # Print xml to file
         dom = parseString(xml)
-        filename = open('%s/metadata_%s_%i.xml' % (outpath, xl['Inventory'].loc[i], i), 'w')
+        filename = open(os.path.join(outpath, fullname), 'w')
         #flename.write(str(dom.toprettyxml()))
         filename.write(str(dom.toxml()))
         filename.close()
@@ -235,7 +244,8 @@ def readmetadata(inputfile, outpath, citeinfo='None', distinfo='None', dataqual=
 
         # deal with duplicate entries / split into new elements
         # reopen file
-        tree = ET.parse('%s/metadata_%s_%i.xml' % (outpath, xl['Inventory'].loc[i], i))
+
+        tree = ET.parse(os.path.join(outpath, fullname))
         root = tree.getroot()
 
         # For multiple original citations
@@ -349,17 +359,12 @@ def readmetadata(inputfile, outpath, citeinfo='None', distinfo='None', dataqual=
                             el = ET.SubElement(q, 'cntemail')
                             el.text = u[w]
 
-        try:
-            os.path.mkdir('%s/xml' % outpath)
-        except:
-            print('xml subdirectory already exists')
-
         # write changes to xml tree item
-        tree.write('%s/xml/metadata_%s_%i.xml' % (outpath, xl['Inventory'].loc[i], i))
+        tree.write(os.path.join(outpath, fullname))
 
         # write changes to file
-        dom1 = parse('%s/xml/metadata_%s_%i.xml' % (outpath, xl['Inventory'].loc[i], i))
-        filename = open('%s/xml/metadata_%s_%i.xml' % (outpath, xl['Inventory'].loc[i], i), 'w')
+        dom1 = parse(fullname)
+        filename = open(fullname, 'w')
         filename.write(str(dom1.toprettyxml()))
         filename.close()
 
@@ -371,39 +376,40 @@ def readmetadata(inputfile, outpath, citeinfo='None', distinfo='None', dataqual=
         # THE FOLLOWING IS JUST FOR PRINTING CITATIONS TO FILE.
         ##########################################
 
-        tempstring = authors
-        # Write citations to file
-        for q in root.iter('citeinfo'):
-            r = q.iter('pubdate')
-            next(r)
-            for items in r:
-                tempstring += items.text + ', '
-            r = q.iter('title')
-            next(r)
-            for items in r:
-                tempstring += items.text + ', '
-            r = q.iter('onlink')
-            next(r)
-            for items in r:
-                tempstring += items.text + ', '
-        tempstring += 'in '
-        for q in root.iter('lworkcit'):
-            tempstring += db_authors
-            for r in q.iter('pubdate'):
-                tempstring += r.text + ', '
-            for r in q.iter('title'):
-                tempstring += r.text + ', '
-            for r in q.iter('publish'):
-                tempstring += r.text + ', '
-            tempstring += 'accessed May 15, 2017, '  # REPLACE THIS WITH CURRENT DATE
-            for r in q.iter('onlink'):
-                tempstring += 'at ' + r.text
-        tempstring += '.'
-        string.append(str(tempstring))
+        if printcitations:
+            tempstring = authors
+            # Write citations to file
+            for q in root.iter('citeinfo'):
+                r = q.iter('pubdate')
+                next(r)
+                for items in r:
+                    tempstring += items.text + ', '
+                r = q.iter('title')
+                next(r)
+                for items in r:
+                    tempstring += items.text + ', '
+                r = q.iter('onlink')
+                next(r)
+                for items in r:
+                    tempstring += items.text + ', '
+            tempstring += 'in '
+            for q in root.iter('lworkcit'):
+                tempstring += db_authors
+                for r in q.iter('pubdate'):
+                    tempstring += r.text + ', '
+                for r in q.iter('title'):
+                    tempstring += r.text + ', '
+                for r in q.iter('publish'):
+                    tempstring += r.text + ', '
+                tempstring += 'accessed May 15, 2017, '  # REPLACE THIS WITH CURRENT DATE
+                for r in q.iter('onlink'):
+                    tempstring += 'at ' + r.text
+            tempstring += '.'
+            string.append(str(tempstring))
 
-    filename = open('%s/citations.doc' % outpath, 'w')
-    for i in range(2, a):
-        filename.write(str(xl['Inventory'].loc[i]))
-        filename.write('\n\n %s \n\n' % string[i-2])
-    filename.close()
-    
+    if printcitations:
+        filename = open(os.path.join(outpath, 'citations.doc'), 'w')
+        for i in range(2, a):
+            filename.write(str(invname))
+            filename.write('\n\n %s \n\n' % string[i-2])
+        filename.close()
