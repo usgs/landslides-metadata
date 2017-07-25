@@ -403,7 +403,7 @@ def readmetadata(inputfile, outpath, citeinfo='None', distinfo='None', dataqual=
                     tempstring += r.text + ', '
                 for r in q.iter('publish'):
                     tempstring += r.text + ', '
-                tempstring += date.strftime("%B %d, %Y")
+                tempstring += 'accessed on' + date.strftime("%B %d, %Y") + ', '
                 for r in q.iter('onlink'):
                     tempstring += 'at ' + r.text
             tempstring += '.'
