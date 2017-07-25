@@ -10,6 +10,7 @@ import dicttoxml
 from xml.dom.minidom import parseString, parse
 import xml.etree.ElementTree as ET
 import os
+import datetime
 
 
 def readmetadata(inputfile, outpath, citeinfo='None', distinfo='None', dataqual='None', geoform='Electronic',
@@ -54,7 +55,7 @@ def readmetadata(inputfile, outpath, citeinfo='None', distinfo='None', dataqual=
                              'state': 'CO', 'postal': '80401', 'country': 'USA'},
                  'cntvoice': '303-273-8500',
                  'cntemail': 'ghsc_metadata@usgs.gov'}
-    printcitations = if True, function will output a file called citations.docx containing full list of citations
+    printcitations = boolean, if True, function will output a file called citations.docx containing full list of citations
     """
 
     # read in excel file (must be csv)
@@ -375,6 +376,7 @@ def readmetadata(inputfile, outpath, citeinfo='None', distinfo='None', dataqual=
         ##########################################
         # THE FOLLOWING IS JUST FOR PRINTING CITATIONS TO FILE.
         ##########################################
+        date = datetime.datetime.now()
 
         if printcitations:
             tempstring = authors
@@ -401,7 +403,7 @@ def readmetadata(inputfile, outpath, citeinfo='None', distinfo='None', dataqual=
                     tempstring += r.text + ', '
                 for r in q.iter('publish'):
                     tempstring += r.text + ', '
-                tempstring += 'accessed May 15, 2017, '  # REPLACE THIS WITH CURRENT DATE
+                tempstring += date.strftime("%B %d, %Y")  # REPLACE THIS WITH CURRENT DATE
                 for r in q.iter('onlink'):
                     tempstring += 'at ' + r.text
             tempstring += '.'
