@@ -15,8 +15,8 @@ Disclaimer: This software is preliminary or provisional and is subject to revisi
 This module must be run using Python 3. It requires the Python standard library (xml, collections, datetime, and os) as well as the following packages:
 
 * SciPy
-* Pandas
-* dicttoxml
+* Pandas (version number 0.20.2)
+* dicttoxml (version number 1.7.4)
 
 These can be installed using the 'pip install' or 'conda install' commands.
 
