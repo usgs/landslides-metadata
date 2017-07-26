@@ -77,7 +77,17 @@ def readmetadata(inputfile, outpath, citeinfo='None', distinfo='None', dataqual=
     #run through for loop of the same size as the number of inventories
     for i in range(2, a):
         #start new dictionary element for each repository with similar basic structure
-        metadata.update({'metadata': {'eainfo': {'overview': {}}, 'idinfo': {'citation': {'citeinfo': {'pubinfo': {}}}, 'descript': {}, 'timeperd': {'timeinfo': {'rngdates': {}}}, 'status': {}, 'spdom': {'bounding': {}}, 'keywords': {'theme': {}, 'place': {}}, 'ptcontac': {'cntinfo': {'cntperp': {}, 'cntaddr': {}}}}, 'dataqual': {'attracc': {}, 'posacc': {'horizpa': {}, 'vertacc': {}}, 'lineage': {'procstep': {}}}, 'distinfo': {'stdorder': {'digform': {'digtopt': {'onlinopt': {'computer': {'networka': {}}}}}}, 'distrib': {'cntinfo': {'cntperp': {}, 'cntaddr': {}}}}, 'metainfo': {'metc': {'cntinfo': {'cntperp': {}, 'cntaddr': {}}}}}})
+        metadata.update({'metadata': {'eainfo': {'overview': {}}, 
+                                      'idinfo': {'citation': {'citeinfo': {'pubinfo': {}}}, 
+                                                 'descript': {}, 'timeperd': {'timeinfo': {'rngdates': {}}}, 
+                                                 'status': {}, 'spdom': {'bounding': {}}, 
+                                                 'keywords': {'theme': {}, 'place': {}}, 
+                                                 'ptcontac': {'cntinfo': {'cntperp': {}, 'cntaddr': {}}}}, 
+                                      'dataqual': {'attracc': {}, 'posacc': {'horizpa': {}, 'vertacc': {}}, 
+                                                   'lineage': {'procstep': {}}}, 
+                                      'distinfo': {'stdorder': {'digform': {'digtopt': {'onlinopt': {'computer': {'networka': {}}}}}}, 
+                                                   'distrib': {'cntinfo': {'cntperp': {}, 'cntaddr': {}}}}, 
+                                      'metainfo': {'metc': {'cntinfo': {'cntperp': {}, 'cntaddr': {}}}}}})
 
         # add unique inventory information
 
@@ -98,7 +108,10 @@ def readmetadata(inputfile, outpath, citeinfo='None', distinfo='None', dataqual=
         metadata['metadata']['idinfo']['citation']['citeinfo']['pubinfo']['pubplace'] = pubplace
         metadata['metadata']['idinfo']['citation']['citeinfo']['pubinfo']['publish'] = publish
         if citeinfo == 'None':
-            metadata['metadata']['idinfo']['citation']['citeinfo']['lworkcit'] = {'citeinfo': {'origin': 'Schmitt, R.; Tanyas, H.; Jessee, M.A.; Zhu, J.; Biegel, K.; Allstadt, K.E.; Jibson, R.W.; Thompson, E.M.; van Westen, C.; Sato, H.P.; Wald, D.J.; Godt, J.W.; Gorum, T.; Moss, R.E.S.; Xu, C.; Rathje, E.M., Knudsen, K.L.', 'pubdate': '2017', 'pubinfo': {'publish': 'U.S. Geological Survey data release collection', 'pubplace': 'Golden, CO'}, 'title': 'An Open Repository of Earthquake-triggered Ground Failure Inventories', 'onlink': 'https://doi.org/10.5066/xxxxxxx'}}
+            metadata['metadata']['idinfo']['citation']['citeinfo']['lworkcit'] = {'citeinfo': {'origin': 'Schmitt, R.; Tanyas, H.; Jessee, M.A.; Zhu, J.; Biegel, K.; Allstadt, K.E.; Jibson, R.W.; Thompson, E.M.; van Westen, C.; Sato, H.P.; Wald, D.J.; Godt, J.W.; Gorum, T.; Moss, R.E.S.; Xu, C.; Rathje, E.M., Knudsen, K.L.', 
+                                                                                               'pubdate': '2017', 'pubinfo': {'publish': 'U.S. Geological Survey data release collection', 'pubplace': 'Golden, CO'}, 
+                                                                                               'title': 'An Open Repository of Earthquake-triggered Ground Failure Inventories', 
+                                                                                               'onlink': 'https://doi.org/10.5066/xxxxxxx'}}
         else:
             metadata['metadata']['idinfo']['citation']['citeinfo']['lworkcit'] = {'citeinfo': citeinfo}
 
