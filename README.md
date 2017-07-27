@@ -2,7 +2,7 @@
 
 ## Introduction
 
-EQIL_metadata is a supplemental tool used to create metadata files, following the USGS geospatial metadata format, for a data series release of numerous ground failure inventories (Schmitt and others, 2017). The purpose of the code is to streamline and semi-automate the production of metadata for projects like this that require numerous individual metadata files. The code takes metadata information, compiled into a excel spreadsheet (xlsx), for a series of data sets and produces separate XML metadata files for each data set.  The code documentation can be found at: https://github.com/kbiegel-usgs/EQIL_metadata
+EQIL_metadata is a supplemental tool used to create metadata files, following the USGS geospatial metadata format, for a data series release of numerous ground failure inventories (Schmitt and others, 2017). The purpose of the code is to streamline and semi-automate the production of metadata for projects like this that require numerous individual metadata files. The code takes metadata information, compiled into a csv file, for a series of data sets and produces separate XML metadata files for each data set.  The code documentation can be found at: https://github.com/kbiegel-usgs/EQIL_metadata
 
 The format for USGS geospatial metadata can be found here:  https://www.fgdc.gov/standards/projects/FGDC-standards-projects/metadata/base-metadata/v2_0698.pdf
 
