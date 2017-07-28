@@ -74,12 +74,12 @@ Running this code requires creating a csv file containing the background metadat
 
 ### Config file
 
-The only variable in the code is the config file location.  The full filename should be specified when designating this variable.
+One of the variable required to run the code is the config file.  The full filename should be specified when designating this variable.
 ```python
-configfilepath = '/Users/kbiegel/Documents/EQIL/Example_config.ini'
+configfilepath = '/Users/user/Documents/EQIL/Example_config.ini'
 ```
 
-The attached example config file (Example_config.ini) has all the necessary variables as well as example or default items.
+The attached example config file (Example_config.ini) has all the necessary variables as well as example or default items.  This file must be changed by the user to reflect desired information.
 
 ### Running the code
 
@@ -87,11 +87,16 @@ To run the code, use a python environment such as ipython terminal.  First impor
 ```python
 import readMetadata as rm
 ```
- 
-To run the function that creates the xml files, you must specify the inputfile and outpath.  All other variables have a default and are therefore optional.  To run the function:
+Next designate the filepath locations for the input file (Example_metadata.csv) and the output directory location.  The configfilepath location was designated above.
+```python
+inputfile = '/Users/user/Documents/EQIL/Example_metadata.csv'
+outpath = '/Users/user/Documents/EQIL/Outputs/'
+```
+
+After specifying the file locations of the three variables, run the function as shown:
 ```python
 # Create xml files
-rm.readmetadata(config = configfilepath)
+rm.readmetadata(configfilepath, inputfile, outpath)
 ```
 
 ### Output
