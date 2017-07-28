@@ -18,55 +18,24 @@ from xml.dom.minidom import parseString, parse
 import xml.etree.ElementTree as ET
 import os
 import datetime
+from configobj import ConfigObj
 
 
-def readmetadata(inputfile, outpath, citeinfo='None', distinfo='None', dataqual='None', geoform='Electronic',
-                 pubplace='None', publish='None', disclaimer='default', metainfo='default', printcitations=False):
+def readmetadata(config):
     """
     This function runs creates metadata files from a common CSV input for individual files that are part of a data collection.
     ####
     Variables
     ####
-    inputfile = string, full path to input file
-    outpath = string, full path to output file directory
-    citeinfo = dictionary, containing full citation of the base data collection:
-                {'origin': 'Schmitt, R.; Tanyas, H.; Jessee, M.A.; Zhu, J.; Biegel, K.; Allstadt, K.E.; Jibson, R.W.; Thompson, E.M.;
-                            van Westen, C.; Sato, H.P.; Wald, D.J.; Godt, J.W.; Gorum, T.; Moss, R.E.S.; Xu, C; Rathje, E.M., Knudsen, K.L.',
-                 'pubdate': '2017',
-                 'pubinfo': {'publish': 'U.S. Geological Survey data release collection', 'pubplace': 'Golden, CO'},
-                 'title': 'An Open Repository of Earthquake-triggered Ground Failure Inventories',
-                 'onlink': 'https://doi.org/10.5066/F7H70DB4'}
-    distinfo = dictionary, containing distributor contact information. If None, will use ScienceBase as distributor.
-                {'cntperp': {'cntper': 'ScienceBase', 'cntorg': 'U.S. Geological Survey - ScienceBase'},
-                 'cntaddr': {'addrtype': 'mailing and physical', 'address': 'Denver Federal Center, Building 810', 'city':
-                            'Denver', 'state': 'CO', 'postal': '80225', 'country': 'USA'},
-                 'cntvoice': '1-888-275-8747',
-                 'cntemail': 'sciencebase@usgs.gov'}
-    dataqual = dictionary, containing data quality information. If None, will use default of no data quality checks.
-                {'attracc': {'attraccr': 'No formal attribute accuracy tests were conducted.'},
-                 'logic': 'No formal logical accuracy tests were conducted.',
-                 'complete': 'Data set is considered complete for the information presented, as described in the abstract.
-                              Users are advised to read the rest of the metadata record carefully for additional details.',
-                 'postacc': {'horizpa': {'horizpar': 'No formal positional accuracy tests were conducted.'}, 'vertacc':
-                            {'vertaccr': 'No formal positional accuracy tests were conducted.''}},
-                 'lineage': {'procstep': {'procdesc': 'All dataset projection systems were converted to WGS84.',
-                                          'procdate': 'General Processing Data when provided.'}}}
-    geoform = string, mode in which the geospatial data is presented.
-    pubplace = string, geographical place data was published
-    publish = string, publisher of data.
-    disclaimer = string, custom disclaimer, if 'default', will use a default USGS disclaimer
-    metainfo = dictionary, containing metadata contact information.  If default, will use GHSC Data Steward.
-                {'cntperp': {'cntper': 'GHSC Data Steward', 'cntorg': 'U.S. Geological Survey, Geologic Hazards Science Center'},
-                 'cntpos': 'Open Data Policy Coordinator',
-                 'cntaddr': {'addrtype': 'mailing and physical', 'address': '1711 Illinois St.', 'city': 'Golden',
-                             'state': 'CO', 'postal': '80401', 'country': 'USA'},
-                 'cntvoice': '303-273-8500',
-                 'cntemail': 'ghsc_metadata@usgs.gov'}
-    printcitations = boolean, if True, function will output a file called citations.docx containing full list of citations
+    config = string, full path to config file
     """
 
+    # Load config
+    config = ConfigObj(config)
+    config = config['metadata']
+
     # read in excel file (must be csv)
-    xl = pd.read_csv(inputfile)
+    xl = pd.read_csv(config['inputfile']['file'])
 
     # run through for-loop to make into OrderedDict
     # Declare variables
@@ -104,16 +73,10 @@ def readmetadata(inputfile, outpath, citeinfo='None', distinfo='None', dataqual=
             if j == 5:
                 metadata['metadata']['idinfo']['citation']['citeinfo'][xl['Unnamed: %i' % (j-1)].loc[0]] = xl['Unnamed: %i' % (j-1)].loc[i]
 
-        metadata['metadata']['idinfo']['citation']['citeinfo']['geoform'] = geoform
-        metadata['metadata']['idinfo']['citation']['citeinfo']['pubinfo']['pubplace'] = pubplace
-        metadata['metadata']['idinfo']['citation']['citeinfo']['pubinfo']['publish'] = publish
-        if citeinfo == 'None':
-            metadata['metadata']['idinfo']['citation']['citeinfo']['lworkcit'] = {'citeinfo': {'origin': 'Schmitt, R.; Tanyas, H.; Jessee, M.A.; Zhu, J.; Biegel, K.; Allstadt, K.E.; Jibson, R.W.; Thompson, E.M.; van Westen, C.; Sato, H.P.; Wald, D.J.; Godt, J.W.; Gorum, T.; Moss, R.E.S.; Xu, C.; Rathje, E.M., Knudsen, K.L.', 
-                                                                                               'pubdate': '2017', 'pubinfo': {'publish': 'U.S. Geological Survey data release collection', 'pubplace': 'Golden, CO'}, 
-                                                                                               'title': 'An Open Repository of Earthquake-triggered Ground Failure Inventories', 
-                                                                                               'onlink': 'https://doi.org/10.5066/xxxxxxx'}}
-        else:
-            metadata['metadata']['idinfo']['citation']['citeinfo']['lworkcit'] = {'citeinfo': citeinfo}
+        metadata['metadata']['idinfo']['citation']['citeinfo']['geoform'] = config['geoform']
+        metadata['metadata']['idinfo']['citation']['citeinfo']['pubinfo']['pubplace'] = config['pubplace']
+        metadata['metadata']['idinfo']['citation']['citeinfo']['pubinfo']['publish'] = config['publish']
+        metadata['metadata']['idinfo']['citation']['citeinfo']['lworkcit'] = {'citeinfo': config['citeinfo']}
 
         # for descript
         for j in range(6, 9):
@@ -187,16 +150,7 @@ def readmetadata(inputfile, outpath, citeinfo='None', distinfo='None', dataqual=
         # set database-wide info (these do not change from iteration to iteration)
 
         # dataqual
-        if dataqual == 'None':
-            metadata['metadata']['dataqual']['attracc']['attraccr'] = 'No formal attribute accuracy tests were conducted.'
-            metadata['metadata']['dataqual']['logic'] = 'No formal logical accuracy tests were conducted.'
-            metadata['metadata']['dataqual']['complete'] = 'Data set is considered complete for the information presented, as described in the abstract. Users are advised to read the rest of the metadata record carefully for additional details.'
-            metadata['metadata']['dataqual']['posacc']['horizpa']['horizpar'] = 'No formal positional accuracy tests were conducted.'
-            metadata['metadata']['dataqual']['posacc']['vertacc']['vertaccr'] = 'No formal positional accuracy tests were conducted.'
-            metadata['metadata']['dataqual']['lineage']['procstep']['procdesc'] = 'All dataset projection systems were converted to WGS84.'
-            metadata['metadata']['dataqual']['lineage']['procstep']['procdate'] = 'General Processing Data when provided.'
-        else:
-            metadata['metadata']['dataqual'] = dataqual
+        metadata['metadata']['dataqual'] = config['dataqual']
 
         # eainfo
         metadata['metadata']['eainfo']['overview']['eaover'] = 'TBD'
@@ -206,43 +160,15 @@ def readmetadata(inputfile, outpath, citeinfo='None', distinfo='None', dataqual=
         metadata['metadata']['distinfo']['stdorder']['digform']['digtopt']['onlinopt']['computer']['networka']['networkr'] = 'Specific Dataset Link'
         metadata['metadata']['distinfo']['stdorder']['fees'] = 'None'
         metadata['metadata']['distinfo']['stdorder']['digform']['digtinfo'] = {'formname': 'ASCII'}
-        if distinfo == 'None':
-            metadata['metadata']['distinfo']['distrib']['cntinfo']['cntperp']['cntper'] = 'ScienceBase'
-            metadata['metadata']['distinfo']['distrib']['cntinfo']['cntperp']['cntorg'] = 'U.S. Geological Survey - ScienceBase'
-            metadata['metadata']['distinfo']['distrib']['cntinfo']['cntaddr']['addrtype'] = 'mailing and physical'
-            metadata['metadata']['distinfo']['distrib']['cntinfo']['cntaddr']['address'] = 'Denver Federal Center, Building 810, Mail Stop 302'
-            metadata['metadata']['distinfo']['distrib']['cntinfo']['cntaddr']['city'] = 'Denver'
-            metadata['metadata']['distinfo']['distrib']['cntinfo']['cntaddr']['state'] = 'CO'
-            metadata['metadata']['distinfo']['distrib']['cntinfo']['cntaddr']['postal'] = '80225'
-            metadata['metadata']['distinfo']['distrib']['cntinfo']['cntaddr']['country'] = 'USA'
-            metadata['metadata']['distinfo']['distrib']['cntinfo']['cntvoice'] = '1-888-275-8747'
-            metadata['metadata']['distinfo']['distrib']['cntinfo']['cntemail'] = 'sciencebase@usgs.gov'
-        else:
-            metadata['metadata']['distinfo']['distrib']['cntinfo'] = distinfo
+        metadata['metadata']['distinfo']['distrib']['cntinfo'] = config['distinfo']
 
-        if disclaimer == 'default':
-            metadata['metadata']['distinfo']['distliab'] = 'Unless otherwise stated, all data, metadata and related materials are considered to satisfy the quality standards relative to the purpose for which the data were collected. Although these data and associated metadata have been reviewed for accuracy and completeness and approved for release by the U.S. Geological Survey (USGS), no warranty expressed or implied is made regarding the display or utility of the data on any other system or for general or scientific purposes, nor shall the act of distribution constitute any such warranty.'
-        else:
-            metadata['metadata']['distinfo']['distliab'] = disclaimer
+        metadata['metadata']['distinfo']['distliab'] = config['disclaimer']
 
         # metainfo
         metadata['metadata']['metainfo']['metstdn'] = 'FGDC Content Standard for Digital Geospatial Metadata'
         metadata['metadata']['metainfo']['metstdv'] = 'FGDC-STD-001-1998'
         metadata['metadata']['metainfo']['metd'] = 'TBD'
-        if metainfo is 'default':
-            metadata['metadata']['metainfo']['metc']['cntinfo']['cntperp']['cntper'] = 'GHSC Data Steward'
-            metadata['metadata']['metainfo']['metc']['cntinfo']['cntperp']['cntorg'] = 'U.S. Geological Survey, Geological Hazards Science Center'
-            metadata['metadata']['metainfo']['metc']['cntinfo']['cntpos'] = 'Open Data Policy coordinator'
-            metadata['metadata']['metainfo']['metc']['cntinfo']['cntaddr']['addrtype'] = 'mailing and physical'
-            metadata['metadata']['metainfo']['metc']['cntinfo']['cntaddr']['address'] = '1711 Illinois Street'
-            metadata['metadata']['metainfo']['metc']['cntinfo']['cntaddr']['city'] = 'Golden'
-            metadata['metadata']['metainfo']['metc']['cntinfo']['cntaddr']['state'] = 'CO'
-            metadata['metadata']['metainfo']['metc']['cntinfo']['cntaddr']['postal'] = '80401'
-            metadata['metadata']['metainfo']['metc']['cntinfo']['cntaddr']['country'] = 'USA'
-            metadata['metadata']['metainfo']['metc']['cntinfo']['cntvoice'] = '303-273-8500'
-            metadata['metadata']['metainfo']['metc']['cntinfo']['cntemail'] = 'ghsc_metadata@usgs.gov'
-        else:
-            metadata['metadata']['metainfo']['metc']['cntinfo'] = metainfo
+        metadata['metadata']['metainfo']['metc']['cntinfo'] = config['metainfo']
 
         # clean up name
         invname = str(xl['Inventory'].loc[i]).replace(', ', '_')
@@ -253,11 +179,13 @@ def readmetadata(inputfile, outpath, citeinfo='None', distinfo='None', dataqual=
         # print OrderedDict to xml file
         xml = dicttoxml.dicttoxml(metadata)
         # Print xml to file
-        dom = parseString(xml)
-        filename = open(os.path.join(outpath, fullname), 'w')
-        #flename.write(str(dom.toprettyxml()))
-        filename.write(str(dom.toxml()))
-        filename.close()
+        try:
+            dom = parseString(xml)
+            filename = open(os.path.join(config['outpath']['file'], fullname), 'w')
+            filename.write(str(dom.toxml()))
+            filename.close()
+        except:
+            print('Error parsing xml to file.  Check lines 257 to 260.')
 
         #######################################################
         # If any entries have more than one item.
@@ -266,7 +194,7 @@ def readmetadata(inputfile, outpath, citeinfo='None', distinfo='None', dataqual=
         # deal with duplicate entries / split into new elements
         # reopen file
 
-        tree = ET.parse(os.path.join(outpath, fullname))
+        tree = ET.parse(os.path.join(config['outpath']['file'], fullname))
         root = tree.getroot()
 
         # For multiple original citations
@@ -381,13 +309,16 @@ def readmetadata(inputfile, outpath, citeinfo='None', distinfo='None', dataqual=
                             el.text = u[w]
 
         # write changes to xml tree item
-        tree.write(os.path.join(outpath, fullname))
+        tree.write(os.path.join(config['outpath']['file'], fullname))
 
         # write changes to file
-        dom1 = parse(fullname)
-        filename = open(fullname, 'w')
-        filename.write(str(dom1.toprettyxml()))
-        filename.close()
+        try:
+            dom1 = parse(os.path.join(config['outpath']['file'], fullname))
+            filename = open(os.path.join(config['outpath']['file'], fullname), 'w')
+            filename.write(str(dom1.toprettyxml()))
+            filename.close()
+        except:
+            print('Could not parse updated xml to file.  Check lines 390 to 393.')
 
         #######################################################
         # XML FILES HAVE BEEN WRITTEN. THE FOLLOWING IS ADDITIONAL.
@@ -398,7 +329,7 @@ def readmetadata(inputfile, outpath, citeinfo='None', distinfo='None', dataqual=
         ##########################################
         date = datetime.datetime.now()
 
-        if printcitations:
+        if config['printcitations']:
             tempstring = authors
             # Write citations to file
             for q in root.iter('citeinfo'):
@@ -429,9 +360,12 @@ def readmetadata(inputfile, outpath, citeinfo='None', distinfo='None', dataqual=
             tempstring += '.'
             string.append(str(tempstring))
 
-    if printcitations:
-        filename = open(os.path.join(outpath, 'citations.doc'), 'w')
-        for i in range(2, a):
-            filename.write(str(invname))
-            filename.write('\n\n %s \n\n' % string[i-2])
-        filename.close()
+    if config['printcitations']:
+        try:
+            filename = open(os.path.join(config['outpath']['file'], 'citations.doc'), 'w')
+            for i in range(2, a):
+                filename.write(str(invname))
+                filename.write('\n\n %s \n\n' % string[i-2])
+            filename.close()
+        except:
+            print('Could not print citations to file.  Check lines 439 to 443.')
