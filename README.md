@@ -30,7 +30,7 @@ This module must be run using Python 3. It requires the Python standard library 
 
 These can be installed using the 'pip install' or 'conda install' commands.
 
-To install the entire environmnt at once you can use the setup script
+To install the entire environment at once you can use the setup script
 ```python
 setup_env.sh
 ```
