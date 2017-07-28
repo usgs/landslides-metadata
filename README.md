@@ -12,7 +12,7 @@ Disclaimer: This software is preliminary or provisional and is subject to revisi
 
 ## Installation and Dependencies
 
-This module must be run using Python 3. It requires the Python standard library (xml, collections, datetime, and os) as well as the following packages:
+This module must be run using Python 3. It requires the Python standard library (xml, collections, configobj, datetime, and os) as well as the following packages:
 
 * SciPy (version number 0.17.1)
 * Pandas (version number 0.20.2)
@@ -53,64 +53,12 @@ Running this code requires creating a csv file containing the background metadat
 | |cntemail|Email|The email of the individual or organization specified as the point of contact.|
 |source|source|source|Whether the origin is USGS (only put usgs for USGS datasets, otherwise leave blank).  This column is only used to distinguish disclaimer or liability statements.|
 
-### Variables
+### Config file
 
-The function requires at minimum two inputs, the input csv file and the output location. In addition, there are several other inputs that can be modified from their defaults, which are summarized on the Table below.
+The only variable in the code is the config file location.  The full filename should be specified when designating this variable.
 
-|Variable Name|Variable Tyep|Description of Item|Default|
-|---|---|---|---|
-|inputfile|String|Filename of the input file.| |
-|outpath|String|Directory name for the output files.| |
-|citeinfo|Dictionary|The information identifying a larger work in which the data set is included.|'None'|
-|distinfo|Dictionary|Distributor contact information|'None'|
-|dataqual|Dictionary|Contains data quality information|'None'|
-|geoform|String|Mode in which data is presented|'Electronic'|
-|pubplace|String|Geographic location of data published|'None'|
-|publish|String|Name of data published|'None'|
-|disclaimer|String|Custom disclaimed|'default'|
-|metainfo|Dictionary|Containing metadata contact information|'default'|
-|printcitations|Boolean|Whether to output a word document containing the full citations|False|
+The attached example config file (Example_config.ini) has all the necessary variables as well as example or default items.
 
-The dictionary variables must contain specific keys, an example form of the specified dictionary can be seen in the function description in the attached script.  Examples (which are the defaults) can also be seen below:
-
-```python
-# citeinfo example:
-citeinfo = {'origin': 'Schmitt, R.; Tanyas, H.; Jessee, M.A.; Zhu, J.; Biegel, K.; Allstadt, K.E.; Jibson, R.W.; '
-                      'Thompson, E.M.; van Westen, C.; Sato, H.P.; Wald, D.J.; Godt, J.W.; Gorum, T.; Moss, R.E.S.; '
-                      'Xu, C.; Rathje, E.M., Knudsen, K.L.',
-           'pubdate': '2017',
-           'pubinfo': {'publish': 'U.S. Geological Survey data release collection', 'pubplace': 'Golden, CO'},
-           'title': 'An Open Repository of Earthquake-triggered Ground Failure Inventories',
-           'onlink': 'https://doi.org/10.5066/F7H70DB4'}
-# distinfo example
-distinfo = {'cntperp': {'cntper': 'ScienceBase', 'cntorg': 'U.S. Geological Survey - ScienceBase'},
-            'cntaddr': {'addrtype': 'mailing and physical', 'address': 'Denver Federal Center, Building 810', 'city':
-                        'Denver', 'state': 'CO', 'postal': '80225', 'country': 'USA'},
-            'cntvoice': '1-888-275-8747',
-            'cntemail': 'sciencebase@usgs.gov'}
-# dataqual example
-dataqual = {'attracc': {'attraccr': 'No formal attribute accuracy tests were conducted.'},
-            'logic': 'No formal logical accuracy tests were conducted.''',
-            'complete': 'Data set is considered complete for the information presented, as described in the abstract. '
-                        'Users are advised to read the rest of the metadata record carefully for additional details.',
-            'postacc': {'horizpa': {'horizpar': 'No formal positional accuracy tests were conducted.'}, 'vertacc':
-                     {'vertaccr': 'No formal positional accuracy tests were conducted.'}},
-            'lineage': {'procstep': {'procdesc': 'All dataset projection systems were converted to WGS84.',
-                                   'procdate': 'General Processing Data when provided.'}}}
-# metainfo example
-metainfo = {'cntperp': {'cntper': 'GHSC Data Steward', 'cntorg': 'U.S. Geological Survey, '
-                        'Geologic Hazards Science Center'},
-          'cntpos': 'Open Data Policy Coordinator',
-          'cntaddr': {'addrtype': 'mailing and physical', 'address': '1711 Illinois St.', 'city': 'Golden',
-                      'state': 'CO', 'postal': '80401', 'country': 'USA'},
-          'cntvoice': '303-273-8500',
-          'cntemail': 'ghsc_metadata@usgs.gov'}
-```
-
-Additionally, the disclaimer can be modified, below is the default disclaimer:
-```
-disclaimer = 'Unless otherwise stated, all data, metadata and related materials are considered to satisfy the quality standards relative to the purpose for which the data were collected. Although these data and associated metadata have been reviewed for accuracy and completeness and approved for release by the U.S. Geological Survey (USGS), no warranty expressed or implied is made regarding the display or utility of the data on any other system or for general or scientific purposes, nor shall the act of distribution constitute any such warranty.'
-```     
 ### Running the code
 
 To run the code, use a python environment such as ipython terminal.  First import the script, for it to load, you must either be in the folder it's located in, or add it to your PYTHONPATH:
@@ -120,13 +68,8 @@ import readMetadata as rm
  
 To run the function that creates the xml files, you must specify the inputfile and outpath.  All other variables have a default and are therefore optional.  To run the function:
 ```python
-# Create xml files with all defaults
-rm.readmetadata(inputfile='Example_metadata.csv', outpath='.')
-
-# Create xml files with changes to defaults
-rm.readmetadata(inputfile='Example_metadata.csv', outpath='.', printcitations=True, citeinfo=citeinfo,
-                distinfo=distinfo, dataqual=dataqual, geoform='Electronic', pubplace='Earth',
-                publish='Yes please', disclaimer='Words', metainfo=metainfo)
+# Create xml files
+rm.readmetadata(config = configfilepath)
 ```
 
 ### Output
