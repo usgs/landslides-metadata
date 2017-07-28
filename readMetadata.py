@@ -23,11 +23,11 @@ from configobj import ConfigObj
 
 def readmetadata(config):
     """
-    This function runs creates metadata files from a common CSV input for individual files that are part of a data collection.
-    ####
-    Variables
-    ####
-    config = string, full path to config file
+    This function runs creates metadata files from a common CSV input for 
+    individual files that are part of a data collection.
+    
+    :param config: filepath defining configobj location
+    :type config: string
     """
 
     # Load config
