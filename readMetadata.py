@@ -21,13 +21,17 @@ import datetime
 from configobj import ConfigObj
 
 
-def readmetadata(config):
+def readmetadata(config, inputfile, outpath):
     """
     This function runs creates metadata files from a common CSV input for 
     individual files that are part of a data collection.
     
     :param config: filepath defining configobj location
     :type config: string
+    :param inputfile: filepath defining input CSV location
+    :type inputfile: string
+    :param outpath: filepath defining output directory location
+    :type outpath: string
     """
 
     # Load config
@@ -35,7 +39,7 @@ def readmetadata(config):
     config = config['metadata']
 
     # read in excel file (must be csv)
-    xl = pd.read_csv(config['inputfile']['file'])
+    xl = pd.read_csv(inputfile)
 
     # run through for-loop to make into OrderedDict
     # Declare variables
@@ -181,7 +185,7 @@ def readmetadata(config):
         # Print xml to file
         try:
             dom = parseString(xml)
-            filename = open(os.path.join(config['outpath']['file'], fullname), 'w')
+            filename = open(os.path.join(outpath, fullname), 'w')
             filename.write(str(dom.toxml()))
             filename.close()
         except:
@@ -194,7 +198,7 @@ def readmetadata(config):
         # deal with duplicate entries / split into new elements
         # reopen file
 
-        tree = ET.parse(os.path.join(config['outpath']['file'], fullname))
+        tree = ET.parse(os.path.join(outpath, fullname))
         root = tree.getroot()
 
         # For multiple original citations
@@ -309,12 +313,12 @@ def readmetadata(config):
                             el.text = u[w]
 
         # write changes to xml tree item
-        tree.write(os.path.join(config['outpath']['file'], fullname))
+        tree.write(os.path.join(outpath, fullname))
 
         # write changes to file
         try:
-            dom1 = parse(os.path.join(config['outpath']['file'], fullname))
-            filename = open(os.path.join(config['outpath']['file'], fullname), 'w')
+            dom1 = parse(os.path.join(outpath, fullname))
+            filename = open(os.path.join(outpath, fullname), 'w')
             filename.write(str(dom1.toprettyxml()))
             filename.close()
         except:
@@ -362,7 +366,7 @@ def readmetadata(config):
 
     if config['printcitations']:
         try:
-            filename = open(os.path.join(config['outpath']['file'], 'citations.doc'), 'w')
+            filename = open(os.path.join(outpath, 'citations.doc'), 'w')
             for i in range(2, a):
                 filename.write(str(invname))
                 filename.write('\n\n %s \n\n' % string[i-2])
