@@ -76,7 +76,7 @@ Running this code requires creating a csv file containing the background metadat
 
 The only variable in the code is the config file location.  The full filename should be specified when designating this variable.
 ```python
-configfilepath = '/Users/kbiegel/Documents/EQIL/Example_metadata.csv'
+configfilepath = '/Users/kbiegel/Documents/EQIL/Example_config.ini'
 ```
 
 The attached example config file (Example_config.ini) has all the necessary variables as well as example or default items.
