@@ -185,7 +185,7 @@ def readmetadata(config):
             filename.write(str(dom.toxml()))
             filename.close()
         except:
-            print('Error parsing xml to file.  Check lines 257 to 260.')
+            print('Error parsing xml to file.  Check lines 183 to 186')
 
         #######################################################
         # If any entries have more than one item.
@@ -318,7 +318,7 @@ def readmetadata(config):
             filename.write(str(dom1.toprettyxml()))
             filename.close()
         except:
-            print('Could not parse updated xml to file.  Check lines 390 to 393.')
+            print('Could not parse updated xml to file.  Check lines 316 to 319.')
 
         #######################################################
         # XML FILES HAVE BEEN WRITTEN. THE FOLLOWING IS ADDITIONAL.
@@ -368,4 +368,4 @@ def readmetadata(config):
                 filename.write('\n\n %s \n\n' % string[i-2])
             filename.close()
         except:
-            print('Could not print citations to file.  Check lines 439 to 443.')
+            print('Could not print citations to file.  Check lines 365 to 369.')
