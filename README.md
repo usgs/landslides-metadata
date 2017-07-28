@@ -12,6 +12,16 @@ Disclaimer: This software is preliminary or provisional and is subject to revisi
 
 ## Installation and Dependencies
 
+To install this package:
+```python
+pip install git+git://github.com/kbiegel-usgs/EQIL_metadata.git
+```
+
+To upgrade:
+```python
+pip install -U git+git://github.com/kbiegel-usgs/EQIL_metadata.git
+```
+
 This module must be run using Python 3. It requires the Python standard library (xml, collections, configobj, datetime, and os) as well as the following packages:
 
 * SciPy (version number 0.17.1)
@@ -19,6 +29,15 @@ This module must be run using Python 3. It requires the Python standard library 
 * dicttoxml (version number 1.7.4)
 
 These can be installed using the 'pip install' or 'conda install' commands.
+
+To install the entire environmnt at once you can use the setup script
+```python
+setup_env.sh
+```
+which is included in the repository.  Run this using the following command:
+```python
+bash setup_env.sh
+```
 
 ## Usage Example
 
