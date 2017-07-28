@@ -5,7 +5,7 @@ VENV=EQIL
 PYVER=3.5
 
 
-DEPARRAY=(scipy pip configobj pandas collections dicttoxml xml os datetime ipython jupyter)
+DEPARRAY=(scipy pip configobj pandas dicttoxml ipython jupyter)
 
 # turn off whatever other virtual environment user might be in
 source deactivate
