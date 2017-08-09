@@ -3,13 +3,6 @@
 """ Read in excel metadata file (.csv) to make separate .xml metadata files for each inventory.
 Must be run using Python 3"""
 
-""" Disclaimer: This software is preliminary or provisional and is subject to revision. 
-It is being provided to meet the need for timely best science. The software has not received final approval 
-by the U.S. Geological Survey (USGS). No warranty, expressed or implied, is made by the USGS or the U.S. 
-Government as to the functionality of the software and related material nor shall the fact of release constitute 
-any such warranty. The software is provided on the condition that neither the USGS nor the U.S. Government 
-shall be held liable for any damages resulting from the authorized or unauthorized use of the software."""
-
 #stdlib imports
 from collections import OrderedDict
 import pandas as pd
@@ -23,9 +16,9 @@ from configobj import ConfigObj
 
 def readmetadata(config, inputfile, outpath):
     """
-    This function runs creates metadata files from a common CSV input for 
+    This function runs creates metadata files from a common CSV input for
     individual files that are part of a data collection.
-    
+
     :param config: filepath defining configobj location
     :type config: string
     :param inputfile: filepath defining input CSV location
@@ -50,16 +43,16 @@ def readmetadata(config, inputfile, outpath):
     #run through for loop of the same size as the number of inventories
     for i in range(2, a):
         #start new dictionary element for each repository with similar basic structure
-        metadata.update({'metadata': {'eainfo': {'overview': {}}, 
-                                      'idinfo': {'citation': {'citeinfo': {'pubinfo': {}}}, 
-                                                 'descript': {}, 'timeperd': {'timeinfo': {'rngdates': {}}}, 
-                                                 'status': {}, 'spdom': {'bounding': {}}, 
-                                                 'keywords': {'theme': {}, 'place': {}}, 
-                                                 'ptcontac': {'cntinfo': {'cntperp': {}, 'cntaddr': {}}}}, 
-                                      'dataqual': {'attracc': {}, 'posacc': {'horizpa': {}, 'vertacc': {}}, 
-                                                   'lineage': {'procstep': {}}}, 
-                                      'distinfo': {'stdorder': {'digform': {'digtopt': {'onlinopt': {'computer': {'networka': {}}}}}}, 
-                                                   'distrib': {'cntinfo': {'cntperp': {}, 'cntaddr': {}}}}, 
+        metadata.update({'metadata': {'eainfo': {'overview': {}},
+                                      'idinfo': {'citation': {'citeinfo': {'pubinfo': {}}},
+                                                 'descript': {}, 'timeperd': {'timeinfo': {'rngdates': {}}},
+                                                 'status': {}, 'spdom': {'bounding': {}},
+                                                 'keywords': {'theme': {}, 'place': {}},
+                                                 'ptcontac': {'cntinfo': {'cntperp': {}, 'cntaddr': {}}}},
+                                      'dataqual': {'attracc': {}, 'posacc': {'horizpa': {}, 'vertacc': {}},
+                                                   'lineage': {'procstep': {}}},
+                                      'distinfo': {'stdorder': {'digform': {'digtopt': {'onlinopt': {'computer': {'networka': {}}}}}},
+                                                   'distrib': {'cntinfo': {'cntperp': {}, 'cntaddr': {}}}},
                                       'metainfo': {'metc': {'cntinfo': {'cntperp': {}, 'cntaddr': {}}}}}})
 
         # add unique inventory information
