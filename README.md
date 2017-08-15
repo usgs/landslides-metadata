@@ -1,8 +1,8 @@
-# EQIL_metadata
+# landslides-metadata
 
 ## Introduction
 
-EQIL_metadata is a supplemental tool used to create metadata files, following the USGS geospatial metadata format, for a data series release of numerous ground failure inventories (Schmitt and others, 2017). The purpose of the code is to streamline and semi-automate the production of metadata for projects like this that require numerous individual metadata files. The code takes metadata information, compiled into a csv file, for a series of data sets and produces separate XML metadata files for each data set.  The code documentation can be found at: https://github.com/kbiegel-usgs/EQIL_metadata
+landslides-metadata is a supplemental tool used to create metadata files, following the USGS geospatial metadata format, for a data series release of numerous ground failure inventories (Schmitt and others, 2017). The purpose of the code is to streamline and semi-automate the production of metadata for projects like this that require numerous individual metadata files. The code takes metadata information, compiled into a csv file, for a series of data sets and produces separate XML metadata files for each data set.  The code documentation can be found at: https://github.com/usgs/landslides-metadata
 
 The format for USGS geospatial metadata can be found here:  https://www.fgdc.gov/standards/projects/FGDC-standards-projects/metadata/base-metadata/v2_0698.pdf
 
@@ -12,12 +12,12 @@ This module compiles the background metadata provided from source documentation.
 
 To install this package:
 ```python
-pip install git+git://github.com/kbiegel-usgs/EQIL_metadata.git
+pip install git+git://github.com/usgs/landslides-metadata.git
 ```
 
 To upgrade:
 ```python
-pip install -U git+git://github.com/kbiegel-usgs/EQIL_metadata.git
+pip install -U git+git://github.com/usgs/landslides-metadata.git
 ```
 
 This module must be run using Python 3. It requires the Python standard library (xml, collections, configobj, datetime, and os) as well as the following packages:
@@ -74,7 +74,7 @@ Running this code requires creating a csv file containing the background metadat
 
 One of the variable required to run the code is the config file.  The full filename should be specified when designating this variable.
 ```python
-configfilepath = '/Users/user/Documents/EQIL/Example_config.ini'
+configfilepath = '/Users/user/Documents/landslides-metadata/Example_config.ini'
 ```
 
 The attached example config file (Example_config.ini) has all the necessary variables as well as example or default items.  This file must be changed by the user to reflect desired information.
@@ -87,8 +87,8 @@ import readMetadata as rm
 ```
 Next designate the filepath locations for the input file (Example_metadata.csv) and the output directory location.  The configfilepath location was designated above.
 ```python
-inputfile = '/Users/user/Documents/EQIL/Example_metadata.csv'
-outpath = '/Users/user/Documents/EQIL/Outputs/'
+inputfile = '/Users/user/Documents/landslides-metadata/Example_metadata.csv'
+outpath = '/Users/user/Documents/landslides-metadata/Outputs/'
 ```
 
 After specifying the file locations of the three variables, run the function as shown:

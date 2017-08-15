@@ -1,7 +1,7 @@
 #!/bin/sh
 echo $PATH
 
-VENV=EQIL
+VENV=lsmd
 PYVER=3.5
 
 
@@ -22,4 +22,4 @@ conda create --name $VENV --yes --channel conda-forge python=$PYVER ${DEPARRAY[*
 source activate $VENV
 
 # tell the user they have to activate this environment
-echo "Type 'source activate EQIL' to use this new virtual environment."
+echo "Type 'source activate lsmd' to use this new virtual environment."
