@@ -19,7 +19,7 @@
     "homepageURL": "https://github.com/usgs/landslides-metadata",
     "downloadURL": "https://github.com/usgs/landslides-metadata/archive/master.zip",
     "disclaimerURL": "https://github.com/usgs/landslides-metadata/blob/master/LICENSE.md",
-    "repositoryUrl": "https://github.com/usgs/landslides-metadata.git",
+    "repositoryURL": "https://github.com/usgs/landslides-metadata.git",
     "vcs": "git",
 
     "laborHours": null,
