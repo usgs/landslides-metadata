@@ -32,16 +32,16 @@ def readmetadata(config, inputfile, outpath):
     config = config['metadata']
 
     # read in excel file (must be csv)
-    xl = pd.read_csv(inputfile)
+    xl = pd.read_csv(inputfile, header=1, skiprows=[2])
 
     # run through for-loop to make into OrderedDict
     # Declare variables
     string = []
     metadata = OrderedDict()
-    a, b = xl.shape
+    numevents, numentries = xl.shape
 
     #run through for loop of the same size as the number of inventories
-    for i in range(2, a):
+    for i in range(numevents):
         #start new dictionary element for each repository with similar basic structure
         metadata.update({'metadata': {'eainfo': {'overview': {}},
                                       'idinfo': {'citation': {'citeinfo': {'pubinfo': {}}},
@@ -58,17 +58,12 @@ def readmetadata(config, inputfile, outpath):
         # add unique inventory information
 
         # for citation/citeinfo
-        for j in range(2, 6):
-            # set citation info
-            if j == 2:
-                metadata['metadata']['idinfo']['citation']['citeinfo'][xl['Citation'].loc[0]] = xl['Citation'].loc[i]
-            else:
-                if pd.isnull(xl['Unnamed: %i' % (j-1)].loc[i]):
-                    metadata['metadata']['idinfo']['citation']['citeinfo'][xl['Unnamed: %i' % (j-1)].loc[0]] = 'TBD'
-                else:
-                    metadata['metadata']['idinfo']['citation']['citeinfo'][xl['Unnamed: %i' % (j-1)].loc[0]] = xl['Unnamed: %i' % (j-1)].loc[i]
-            if j == 5:
-                metadata['metadata']['idinfo']['citation']['citeinfo'][xl['Unnamed: %i' % (j-1)].loc[0]] = xl['Unnamed: %i' % (j-1)].loc[i]
+        cyclelist = ['origin', 'pubdate', 'title', 'onlink']
+
+        for key in cyclelist:
+            if pd.isnull(xl[key].loc[i]):
+                metadata['metadata']['idinfo']['citation']['citeinfo'][key] = 'TBD'
+            metadata['metadata']['idinfo']['citation']['citeinfo'][key] = xl[key].loc[i]
 
         metadata['metadata']['idinfo']['citation']['citeinfo']['geoform'] = config['geoform']
         metadata['metadata']['idinfo']['citation']['citeinfo']['pubinfo']['pubplace'] = config['pubplace']
@@ -76,50 +71,34 @@ def readmetadata(config, inputfile, outpath):
         metadata['metadata']['idinfo']['citation']['citeinfo']['lworkcit'] = {'citeinfo': config['citeinfo']}
 
         # for descript
-        for j in range(6, 9):
-            # set description info
-            if j == 6:
-                metadata['metadata']['idinfo']['descript'][xl['Description'].loc[0]] = 'TBD'
-            else:
-                if pd.isnull(xl['Unnamed: %i' % (j-1)].loc[i]):
-                    metadata['metadata']['idinfo']['descript'][xl['Unnamed: %i' % (j-1)].loc[0]] = 'TBD'
-                else:
-                    metadata['metadata']['idinfo']['descript'][xl['Unnamed: %i' % (j-1)].loc[0]] = xl['Unnamed: %i' % (j-1)].loc[i]
+        deslist = ['abstract', 'purpose', 'suppleinf']
+        for key in deslist:
+            if pd.isnull(xl[key].loc[i]):
+                metadata['metadata']['idinfo']['descript'][key] = 'TBD'
+            metadata['metadata']['idinfo']['descript'][key] = xl[key].loc[i]
 
         # for timeperd/timeinfo/rngdates
-        for j in range(9, 11):
-            # set time info
-            if j == 9:
-                metadata['metadata']['idinfo']['timeperd']['timeinfo']['rngdates'][xl['Time'].loc[0]] = xl['Time'].loc[i]
-                metadata['metadata']['idinfo']['timeperd']['current'] = xl['Time'].loc[i]
-            else:
-                metadata['metadata']['idinfo']['timeperd']['timeinfo']['rngdates'][xl['Unnamed: %i' % (j-1)].loc[0]] = xl['Unnamed: %i' % (j-1)].loc[i]
+        metadata['metadata']['idinfo']['timeperd']['timeinfo']['rngdates']['begdate'] = xl['begdate'].loc[i]
+        metadata['metadata']['idinfo']['timeperd']['current'] = xl['begdate'].loc[i]
+        metadata['metadata']['idinfo']['timeperd']['timeinfo']['rngdates']['enddate'] = xl['enddate'].loc[i]
 
         # for status
-        for j in range(11, 13):
-            # set time info
-            if j == 11:
-                metadata['metadata']['idinfo']['status'][xl['Status'].loc[0]] = xl['Status'].loc[i]
-            else:
-                metadata['metadata']['idinfo']['status'][xl['Unnamed: %i' % (j-1)].loc[0]] = xl['Unnamed: %i' % (j-1)].loc[i]
+        metadata['metadata']['idinfo']['status']['progress'] = xl['progress'].loc[i]
+        metadata['metadata']['idinfo']['status']['update'] = xl['update'].loc[i]
 
         # for spdom
-        for j in range(13, 14):
-            if j == 13:
-                metadata['metadata']['idinfo']['spdom']['descgeog'] = xl['Geographical Context'].loc[i]
+        metadata['metadata']['idinfo']['spdom']['descgeog'] = xl['descgeog'].loc[i]
+
         metadata['metadata']['idinfo']['spdom']['bounding']['westbc'] = 'TBD'
         metadata['metadata']['idinfo']['spdom']['bounding']['eastbc'] = 'TBD'
         metadata['metadata']['idinfo']['spdom']['bounding']['northbc'] = 'TBD'
         metadata['metadata']['idinfo']['spdom']['bounding']['southbc'] = 'TBD'
 
         # for keywords
-        for j in range(14, 17):
-            if j == 14:
-                metadata['metadata']['idinfo']['keywords']['theme'][xl['Keywords'].loc[0]] = 'TBD'
-            if j == 15:
-                metadata['metadata']['idinfo']['keywords']['place'][xl['Unnamed: %i' % (j-1)].loc[0]] = 'TBD'
-        #if j == 16:
-        #    metadata['metadata']['idinfo']['keywords']['temporal'][xl['Unnamed: %i' % (j-1)].loc[0]] = 'TBD'
+        #TODO NEED TO CYCLE THROUGH LIST FOR THESE TWO
+        metadata['metadata']['idinfo']['keywords']['theme']['themekey'] = xl['themekey'].loc[i]
+        metadata['metadata']['idinfo']['keywords']['place']['placekey'] = xl['placekey'].loc[i]
+
         metadata['metadata']['idinfo']['keywords']['theme']['themekt'] = 'USGS Thesaurus'
         #metadata['metadata']['idinfo']['keywords']['temporal']['tempkt'] = 'USGS Thesaurus'
         metadata['metadata']['idinfo']['keywords']['place']['placekt'] = 'USGS Thesaurus'
@@ -128,18 +107,16 @@ def readmetadata(config, inputfile, outpath):
         metadata['metadata']['idinfo']['useconst'] = 'none'
 
         # for ptcontact
-        for j in range(17, b):
-            if j == 17:
-                metadata['metadata']['idinfo']['ptcontac']['cntinfo']['cntperp'][xl['Contact'].loc[0]] = xl['Contact'].loc[i]
-            elif j == 18:
-                metadata['metadata']['idinfo']['ptcontac']['cntinfo']['cntperp'][xl['Unnamed: %i' % (j-1)].loc[0]] = xl['Unnamed: %i' % (j-1)].loc[i]
-            elif j == b-1:
-                metadata['metadata']['idinfo']['ptcontac']['cntinfo'][xl['Unnamed: %i' % (j-1)].loc[0]] = xl['Unnamed: %i' % (j-1)].loc[i]
+        metadata['metadata']['idinfo']['ptcontac']['cntinfo']['cntperp']['cntper'] = xl['cntper'].loc[i]
+        metadata['metadata']['idinfo']['ptcontac']['cntinfo']['cntperp']['cntorg'] = xl['cntorg'].loc[i]
+        metadata['metadata']['idinfo']['ptcontac']['cntinfo']['cntemail'] = xl['cntemail'].loc[i]
+        conlist = ['address', 'city', 'postal', 'country']
+        for key in conlist:
+            if pd.isnull(xl[key].loc[i]):
+                metadata['metadata']['idinfo']['ptcontac']['cntinfo']['cntaddr'][key] = 'TBD'
             else:
-                if pd.isnull(xl['Unnamed: %i' % (j-1)].loc[i]):
-                    metadata['metadata']['idinfo']['ptcontac']['cntinfo']['cntaddr'][xl['Unnamed: %i' % (j-1)].loc[0]] = 'TBD'
-                else:
-                    metadata['metadata']['idinfo']['ptcontac']['cntinfo']['cntaddr'][xl['Unnamed: %i' % (j-1)].loc[0]] = xl['Unnamed: %i' % (j-1)].loc[i]
+                metadata['metadata']['idinfo']['ptcontac']['cntinfo']['cntaddr'][key] = xl[key].loc[i]
+
         metadata['metadata']['idinfo']['ptcontac']['cntinfo']['cntaddr']['addrtype'] = 'mailing and physical'
         metadata['metadata']['idinfo']['ptcontac']['cntinfo']['cntaddr']['state'] = 'none'
         metadata['metadata']['idinfo']['ptcontac']['cntinfo']['cntvoice'] = 'none'
@@ -168,7 +145,7 @@ def readmetadata(config, inputfile, outpath):
         metadata['metadata']['metainfo']['metc']['cntinfo'] = config['metainfo']
 
         # clean up name
-        invname = str(xl['Inventory'].loc[i]).replace(', ', '_')
+        invname = str(xl['Unnamed: 0'].loc[i]).replace(', ', '_')
         invname = invname.replace(',', '_')
         invname = invname.replace(' ', '_')
         fullname = 'metadata_%s_%i.xml' % (invname, i)
@@ -193,6 +170,31 @@ def readmetadata(config, inputfile, outpath):
 
         tree = ET.parse(os.path.join(outpath, fullname))
         root = tree.getroot()
+
+        # For multiple theme keywords
+        for m in root.iter('keywords'):
+            for q in m.iter('theme'):
+                for s in q.iter('themekey'):
+                    t = s.text
+                    u = t.split('; ')
+                    for w in range(0, len(u)):
+                        if w == 0:
+                            s.text = u[w]
+                        else:
+                            el = ET.SubElement(q, 'themekey')
+                            el.text = u[w]
+
+        for m in root.iter('keywords'):
+            for q in m.iter('place'):
+                for s in q.iter('placekey'):
+                    t = s.text
+                    u = t.split('; ')
+                    for w in range(0, len(u)):
+                        if w == 0:
+                            s.text = u[w]
+                        else:
+                            el = ET.SubElement(q, 'placekey')
+                            el.text = u[w]
 
         # For multiple original citations
         for q in root.iter('descript'):
@@ -360,9 +362,9 @@ def readmetadata(config, inputfile, outpath):
     if config['printcitations']:
         try:
             filename = open(os.path.join(outpath, 'citations.doc'), 'w')
-            for i in range(2, a):
+            for i in range(numevents):
                 filename.write(str(invname))
-                filename.write('\n\n %s \n\n' % string[i-2])
+                filename.write('\n\n %s \n\n' % string[i])
             filename.close()
         except:
             print('Could not print citations to file.  Check lines 365 to 369.')
