@@ -40,6 +40,8 @@ def readmetadata(config, inputfile, outpath):
     metadata = OrderedDict()
     numevents, numentries = xl.shape
 
+    invnames_all = []
+
     #run through for loop of the same size as the number of inventories
     for i in range(numevents):
         #start new dictionary element for each repository with similar basic structure
@@ -148,6 +150,7 @@ def readmetadata(config, inputfile, outpath):
         invname = str(xl['Unnamed: 0'].loc[i]).replace(', ', '_')
         invname = invname.replace(',', '_')
         invname = invname.replace(' ', '_')
+        invnames_all.append(invname)
         fullname = 'metadata_%s_%i.xml' % (invname, i)
 
         # print OrderedDict to xml file
@@ -359,11 +362,11 @@ def readmetadata(config, inputfile, outpath):
             tempstring += '.'
             string.append(str(tempstring))
 
-    if config['printcitations']:
+    if eval(config['printcitations']):
         try:
             filename = open(os.path.join(outpath, 'citations.doc'), 'w')
             for i in range(numevents):
-                filename.write(str(invname))
+                filename.write(str(invnames_all[i]))
                 filename.write('\n\n %s \n\n' % string[i])
             filename.close()
         except:
